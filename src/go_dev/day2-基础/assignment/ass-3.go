@@ -12,6 +12,7 @@ func isPrime(n int ) bool {
 	}
 	return true
 }
+
 func main(){
 	var n int
 	var m int 

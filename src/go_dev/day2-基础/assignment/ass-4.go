@@ -1,6 +1,6 @@
 package main
 import "fmt"
-func isNumber(n int) bool {
+func isNumbers(n int) bool {
 	var i,j,k int
 	i = n %10
 	j = (n /10) %10
@@ -9,12 +9,13 @@ func isNumber(n int) bool {
 	sum := i*i*i + j*j*j + k*k*k
 	return sum == n
 }
-func main(){
+
+func main() {
 	var n int
 	var m int
 	fmt.Scanf("%d,%d",&n,&m)
 	for i :=n;i<=m;i++{
-		if isNumber(i) == true{
+		if isNumbers(i) == true{
 			fmt.Println(i,"is shuixianhua")
 		}
 	}
