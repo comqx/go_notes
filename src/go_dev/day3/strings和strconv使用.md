@@ -1,8 +1,8 @@
 <!-- TOC -->
 
-- [strings和strconv使用](#strings%E5%92%8Cstrconv%E4%BD%BF%E7%94%A8)
-	- [strings使用](#strings%E4%BD%BF%E7%94%A8)
-	- [strconv 整数-字符串转换](#strconv-%E6%95%B4%E6%95%B0-%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2)
+- [strings和strconv使用](#strings和strconv使用)
+	- [strings使用](#strings使用)
+	- [strconv 整数-字符串转换](#strconv-整数-字符串转换)
 
 <!-- /TOC -->
 # strings和strconv使用
