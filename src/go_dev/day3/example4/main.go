@@ -4,6 +4,10 @@ import (
 	"fmt"
 )
 
+// for语句的写法：
+// for 初始化语句；条件判断；变量修改{
+// }
+
 // 分层打印多个A
 func prints(n int) {
 	for i := 0; i < n+1; i++ {

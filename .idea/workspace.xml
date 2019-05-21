@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fbeb54af-1ecf-4f32-8a30-f9d6f868997f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/go_dev/day3/时间和日期类型.md" beforeDir="false" afterPath="$PROJECT_DIR$/src/go_dev/day3/时间和日期类型.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/go_dev/day3/example5/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/go_dev/day3/example5/main.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -60,7 +60,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/go_dev/day2-基础/assignment/tesst.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="513">
+            <state relative-caret-position="532">
               <caret line="30" selection-start-line="30" selection-end-line="30" />
             </state>
           </provider>
@@ -97,7 +97,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="1667" />
     <option name="y" value="-13" />
     <option name="width" value="2577" />
@@ -237,10 +237,9 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1912" y="-8" width="1936" height="1066" extended-state="6" />
-    <editor active="true" />
+    <frame x="1912" y="-8" width="1936" height="1066" extended-state="7" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3251599" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.32889125" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -371,7 +370,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/go_dev/day2-基础/assignment/tesst.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
+        <state relative-caret-position="532">
           <caret line="30" selection-start-line="30" selection-end-line="30" />
         </state>
       </provider>
