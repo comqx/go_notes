@@ -3,9 +3,10 @@
 
 <!-- TOC -->
 
-- [golang语言特性](#golang%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7)
-- [包的概念](#%E5%8C%85%E7%9A%84%E6%A6%82%E5%BF%B5)
-- [go程序目录结构](#go%E7%A8%8B%E5%BA%8F%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84)
+- [golang语言特性](#golang语言特性)
+- [包的概念](#包的概念)
+- [go程序目录结构](#go程序目录结构)
+- [学习golang](#学习golang)
 
 <!-- /TOC -->
 # golang语言特性
