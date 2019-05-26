@@ -52,7 +52,7 @@ func strs() {
 			}
 		}
 		fmt.Println("yes")
-
+		//第二种方式，不适用与中文
 		// var str_rev string
 		// for i := len(str_a) - 1; i >= 0; i-- {
 		// 	str_rev += fmt.Sprintf("%c", str_a[i])
