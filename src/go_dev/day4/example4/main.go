@@ -1,9 +1,3 @@
-# 递归函数的定义
-- 把一个大的问题能够分解成相似的小问题
-- 定义好出口函数
-
-
-```go
 package main
 
 import (
@@ -19,6 +13,7 @@ func recusive(n int) {
 		return
 	}
 	recusive(n + 1)
+
 }
 
 // 递归函数实例-2 (5*4*3*2*1=120) n的阶乘
@@ -31,6 +26,7 @@ func calc(n int) int {
 	// 2*3=6
 	// 6*4=24
 	// 24*5=120
+
 }
 
 // 递归函数实例-3 斐波那契数
@@ -55,5 +51,3 @@ func main() {
 		fmt.Println(fab(i))
 	}
 }
-
-```
