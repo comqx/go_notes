@@ -1,7 +1,3 @@
-# 闭包
-> 一个函数和与其相关的引用环境组合而成的实例
-
-```go
 package main
 
 import (
@@ -45,4 +41,3 @@ func main() {
 	adder_main()
 	makeSuffixFunc_main()
 }
-```
