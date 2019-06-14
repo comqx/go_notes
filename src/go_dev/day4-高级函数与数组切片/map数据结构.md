@@ -1,13 +1,13 @@
 <!-- TOC -->
 
 - [map简介](#map简介)
-  - [map的声明](#map的声明)
-  - [map相关操作](#map相关操作)
-  - [map实例](#map实例)
-  - [map是一个引用类型](#map是一个引用类型)
-  - [slice of map](#slice-of-map)
-  - [map排序(无序)](#map排序无序)
-  - [map反转](#map反转)
+	- [map的声明](#map的声明)
+	- [map相关操作](#map相关操作)
+	- [map实例](#map实例)
+	- [map是一个引用类型](#map是一个引用类型)
+	- [slice of map](#slice-of-map)
+	- [map排序(无序)](#map排序无序)
+	- [map反转](#map反转)
 
 <!-- /TOC -->
 # map简介
@@ -161,12 +161,10 @@ func testmapsort() {
 	a[3] = 10121
 	a[5] = 10123
 	fmt.Println(a) //map[0:1003 1:1012222 3:10121 5:10123 10:103123 11:1012123 12:1012311]
-
 }
 ```
 ## map反转
 - 初始化另外一个map，把key，value互换即可
-
 ```go
 func testmapsort1() {
 	var a map[string]int
