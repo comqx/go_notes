@@ -6,6 +6,9 @@
 - [golang语言特性](#golang语言特性)
 - [包的概念](#包的概念)
 - [go程序目录结构](#go程序目录结构)
+- [go程序基本结构](#go程序基本结构)
+- [文件名&关键字&标识符](#文件名关键字标识符)
+- [函数的声明和注释](#函数的声明和注释)
 - [学习golang](#学习golang)
 
 <!-- /TOC -->
@@ -43,9 +46,66 @@
   -/pkg #静态库
 export GOPATH=d:/project/ #指定项目位置
 ```
+# go程序基本结构
+```go
+package main //说明是个包
 
+import "fmt" //导入fmt包
+
+func main() {
+    fmt.Println("hello,world")
+}
+
+/*注释：
+1. 任何一个代码文件隶属于一个包
+2. import关键字， 引用其他包
+    import("fmt")
+    import("os") 通常写为：
+    import(
+        "fmt"
+        "os"
+    )
+3. golang可执行程序，package main，并且有且只有一个main入口函数
+4. 包中函数调用：
+    a. 同一个包中函数，直接调用
+    b. 不同包中函数，通过包名+点+函数名进行调用
+5. 包访问控制规则：
+    a. 大写意味着这个函数/变量是可导出的
+    b. 小写意味着这个函数/变量是私有的，包外不可访问
+    */
+```
+# 文件名&关键字&标识符
+1. 所有go源码以.go结尾
+2. 标识符以字母或下划线开头，大小写敏感，比如：
+```go
+a. boy   √
+b. Boy   √
+c. a+b   x
+d. Oboy  √
+e. _boy  √
+f. =_boy  x
+g. _      √  //特殊的标识符，a,_,b，意思是不取值
+```
+3. _是特殊标识符，用来忽略结果
+4. 保留关键字
+
+```go
+break，default，func, interface（接口），select（用在chann管道里面），case，defer，go，map，struct，chan，else，goto，package，switch，const（声明一个常量），fallthough，if，range，type，continue，for，import，return，var
+```
+# 函数的声明和注释
+```go
+1.函数声明：func 函数名称（参数列表）（返回值列表）{}
+// 举例：
+func add(){}
+func add(a int,b int) int {}
+func add(a int,b int) (int,int) {}
+
+2.注释，俩种注释，单行注释：//和多行注释/**/
+```
 # 学习golang
 ```
 ctrl+alt+m toc
 ctrl+alt+x 粘贴image
+clt+ w 预览
+ctrl+shift+p 查看全面命令
 ```
