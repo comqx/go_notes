@@ -88,6 +88,7 @@ g. _      √  //特殊的标识符，a,_,b，意思是不取值
 ```
 3. _是特殊标识符，用来忽略结果
 4. 保留关键字
+
 break | default | func | interface | select（用在chann管道里面）
 ------|---------|------|-----------|--------------------
 case | defer | go | map | struct
