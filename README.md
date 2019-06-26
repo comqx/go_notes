@@ -111,3 +111,4 @@ ctrl+alt+x 粘贴image
 clt+ w 预览
 ctrl+shift+p 查看全面命令
 ```
+
