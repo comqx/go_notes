@@ -1,20 +1,9 @@
+[TOC]
 
-
-
-<!-- TOC -->
-
-- [golang语言特性](#golang语言特性)
-- [包的概念](#包的概念)
-- [go程序目录结构](#go程序目录结构)
-- [go程序基本结构](#go程序基本结构)
-- [文件名&关键字&标识符](#文件名关键字标识符)
-- [函数的声明和注释](#函数的声明和注释)
-- [学习golang](#学习golang)
-
-<!-- /TOC -->
 # golang语言特性
+
 1. 垃圾回收
-- 内存自动回收，再也不需要开发人员管理内存
+- 内存自动回收，再也不需要开发人员管理内存
 - 开发人员专注业务实现，降低了心智负担
 - 只需要new分配内存，不需要释放
 2. 天然并发
@@ -47,6 +36,7 @@
 export GOPATH=d:/project/ #指定项目位置
 ```
 # go程序基本结构
+
 ```go
 package main //说明是个包
 
@@ -74,38 +64,45 @@ func main() {
     b. 小写意味着这个函数/变量是私有的，包外不可访问
     */
 ```
-# 文件名&关键字&标识符
-1. 所有go源码以.go结尾
-2. 标识符以字母或下划线开头，大小写敏感，比如：
-```go
-a. boy   √
-b. Boy   √
-c. a+b   x
-d. Oboy  √
-e. _boy  √
-f. =_boy  x
-g. _      √  //特殊的标识符，a,_,b，意思是不取值
+# 编译go
+
+## go build 
+
+`go build -o 指定编译后的名字 需要编译的pkg`
+
+## go run
+
+像执行脚本文件一样执行Go代码
+
+## go install
+
+`go install`分为两步：
+
+	1. 先编译得到一个可执行文件
+
+ 	2. 将可执行文件拷贝到`GOPATH/bin`
+
+## 交叉编译
+
+Go支持跨平台编译
+
+例如：在windows平台编译一个能在linux平台执行的可执行文件
+
+```bash
+SET CGO_ENABLED=0  // 禁用CGO
+SET GOOS=linux  // 目标平台是linux
+SET GOARCH=amd64  // 目标处理器架构是amd64
 ```
-3. _是特殊标识符，用来忽略结果
-4. 保留关键字
 
-break | default | func | interface | select（用在chann管道里面）
-------|---------|------|-----------|--------------------
-case | defer | go | map | struct
-chan | else | goto | package | switch
-const（声明一个常量） | fallthough | if | range | type
-continue | for | import | return | var
+执行`go build`
 
-# 函数的声明和注释
-```go
-1.函数声明：func 函数名称（参数列表）（返回值列表）{}
-// 举例：
-func add(){}
-func add(a int,b int) int {}
-func add(a int,b int) (int,int) {}
+Mac平台交叉编译：
 
-2.注释，俩种注释，单行注释：//和多行注释/**/
+```bash
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build
+CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build
 ```
+
 # 学习golang
 ```
 ctrl+alt+m toc

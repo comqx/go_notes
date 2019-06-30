@@ -1,24 +1,7 @@
-<!-- TOC -->
-
-- [Print](#print)
-- [Println](#println)
-- [Printf](#printf)
-  - [Printf详细用法](#printf详细用法)
-    - [普通用法（General）](#普通用法general)
-    - [布尔类型（Boolean）](#布尔类型boolean)
-    - [整数（Integer）](#整数integer)
-    - [整数宽度（Integer width）](#整数宽度integer-width)
-    - [浮点型（Float）](#浮点型float)
-    - [字符串（String）](#字符串string)
-    - [字符串宽度（String Width）](#字符串宽度string-width)
-    - [结构（Struct）](#结构struct)
-    - [指针（Pointer）](#指针pointer)
-- [sprintf](#sprintf)
-- [fprintf](#fprintf)
-
-<!-- /TOC -->
+[TOC]
 
 ## Print
+
 >就是一般的标准输出，但是不换行
 
 ## Println
@@ -44,6 +27,8 @@
 ```
 %+d 带符号的整型，fmt.Print("%+d",255),输出是+255
 %q 打印单引号
+
+%b 打印整型的二进制
 %o 不带零的八进制
 %#o 带零的八进制
 %x 小写的十六进制
@@ -51,24 +36,33 @@
 %#x 带0x的十六进制
 %U 打印Unicode字符
 %#U 打印带字符的Unicode
-%b 打印整型的二进制
+
 ```
 #### 整数宽度（Integer width）
 ```
 %5d 表示该整型最大长度是5，下面这段代码
+	var exint int = 100
+	fmt.Printf("5d:%5d\n", exint) //5d:  100  //在整数前面补充空格，总长度为5
+	
 %-5d则相反，打印结果会自动左对齐
 %05d会在数字前面补零。
+	fmt.Printf("5d:%05d\n", exint) //5d:00100
 ```
 #### 浮点型（Float）
+
 ```
 %f (=%.6f) 6位小数点
 %e (=%.6e) 6位小数点（科学计数法）
 %g 用最少的数字来表示
 %.3g 最多3位数字来表示
 %.3f 最多3位小数来表示
+	var exflo float64 = 3000.14152341231324567876
+	fmt.Printf("float:%.3f\n", exflo) //保留3位小数  float:3000.142
+	fmt.Printf("float:%.3g\n", exflo) //带整数位，保留3个数字 float:3e+03
+	
 ```
 #### 字符串（String）
-```
+```go
 %s 正常输出字符串
 %q 字符串带双引号，字符串中的引号带转义符
 %#q 字符串带反引号，如果字符串内有反引号，就用双引号代替
@@ -76,6 +70,11 @@
 %X 将字符串转换为大写的16进制格式
 % x 带空格的16进制格式
 %c acsii码转换为字符
+
+	fmt.Printf("string:%X\n", exstr)  //将字符串转换为大写的16进制格式 //string:6C697571697869616E67EFBC8CE58898E7A5BAE7A5A5
+	fmt.Printf("string:%x\n", exstr)  // 将字符串转换为小写的16进制格式  //string:6c697571697869616e67efbc8ce58898e7a5bae7a5a5
+	fmt.Printf("string:% x\n", exstr) //将字符串转换为小写的带有空格的16进制格式 //string:6c 69 75 71 69 78 69 61 6e 67 ef bc 8c e5 88 98 e7 a5 ba e7 a5 a5
+	fmt.Printf("acsii:%c\n", exint)   //将acsii码转化为对于的值 //acsii:d
 ```
 #### 字符串宽度（String Width）
 ```
@@ -127,7 +126,16 @@ func main(){
 }
 ```
 ## sprintf
+
 >是输出到串，一般是直接申请输出到一个字符串中，可以用来将大量数字数据转换成字符串
+```go
+	var a = "hello"
+	var b = "wolrd"
+	c := fmt.Sprintf("%s+%s", a, b)
+	fmt.Println(c) //hello+wolrd
+```
+
 ## fprintf
+
 >是输出到文件，当然，这个文件也可能是虚拟的文件
 
