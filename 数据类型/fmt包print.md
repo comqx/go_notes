@@ -12,6 +12,7 @@
 
 也就是说，当需要格式化输出信息时一般使用Printf,其他时候都使用Println
 ### Printf详细用法
+
 #### 普通用法（General）
 ```
 %v 以默认的方式打印变量的值
@@ -24,7 +25,7 @@
 %t 打印true或false
 ```
 #### 整数（Integer）
-```
+```go
 %+d 带符号的整型，fmt.Print("%+d",255),输出是+255
 %q 打印单引号
 
@@ -34,8 +35,11 @@
 %x 小写的十六进制
 %X 大写的十六进制
 %#x 带0x的十六进制
+
 %U 打印Unicode字符
 %#U 打印带字符的Unicode
+	var exint int = 23567
+	fmt.Printf("unicode:%#U\n", exint) //将int类型转换为unicode字符，并且携带对应的字符 //unicode:U+5C0F '小'
 
 ```
 #### 整数宽度（Integer width）

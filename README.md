@@ -82,6 +82,10 @@ func main() {
 
  	2. 将可执行文件拷贝到`GOPATH/bin`
 
+## go doc
+
+`go doc builtin.delete ` 查看builtin.delete的用法
+
 ## 交叉编译
 
 Go支持跨平台编译

@@ -76,32 +76,17 @@ func main() {
 }
 ```
 
-# 整数<--->字符串转换.  strconv
+# *内置函数len()
+
+>len()计算的是字符串的byte类型的长度
 
 ```go
-// 1. strconv.Itoa(i int): 把几个整数i转换为字符串
-// 2. strconv.Atoi(str string)(int,error): 把一个字符串转换为整数
-
-package main
-import (
-	"fmt"
-	"strconv"
-)
-//数据类型不同，不能直接赋值
-var a int = 8;
-var b int32 = int32(a) //不同类型之间是不能直接转换的
-
-func main(){
-	var ss int = 153
-	var dd string
-	dd = strconv.Itoa(ss)
-    fmt.Printf("%T,%s\n",dd,dd)//int转换string
-	cc,_ := strconv.Atoi(dd)
-	fmt.Printf("%T,%d",cc,cc)   //string转换int
-}
+  var s = "helloworld,温暖"
+	lenStr := len(s)           //len()计算的是字符串的byte类型的长度
+	fmt.Printf("%d\n", lenStr) //17
 ```
 
-# rune计算string的字符数
+# *rune计算string的字符数
 
 > runne 会把string转化成int32切片，并且存储的是字符对应的acsii码
 
@@ -112,33 +97,4 @@ func main(){
 	fmt.Printf("%c\n", runeStr)             //使用%c，获取acsii码对应的字符
 	lenRuneStr := len(runeStr)
 	fmt.Printf("s字符串里面有%d字符\n", lenRuneStr) //s字符串里面有13字符
-```
-## 字符串类型<--->字符类型
-
-```go
-	s21 := "红"
-	runes21 := []rune(s21) //runne 会把string转化成int32切片，并且存储的是字符对应的acsii码
-	fmt.Printf("%T,%v\n", runes21, runes21[0]) //[]int32,32418
-```
-
-## rune切片<--->字符串
-
-```go
-	s21 := "红"
-	runes21 := []rune(s21) //runne 会把string转化成int32切片，并且存储的是字符对应的acsii码
-	fmt.Printf("%T,%v\n", runes21, runes21[0]) //[]int32,32418
-  runestr := string(runes21)
-  fmt.Printf("%T,%v\n",runestr,runestr)
-```
-
-
-
-# 内置函数len()
-
->len()计算的是字符串的byte类型的长度
-
-```go
-  var s = "helloworld,温暖"
-	lenStr := len(s)           //len()计算的是字符串的byte类型的长度
-	fmt.Printf("%d\n", lenStr) //17
 ```
