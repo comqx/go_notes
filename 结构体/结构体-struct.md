@@ -11,10 +11,12 @@
 
 ## struct的声明
 
+> 使用`type`和`struct`关键字来定义结构体
+
 ```go
-type 标识符 struct{
-  field1 type
-  filed2 type
+type 类型名 struct{ //类型名：标识自定义结构体的名称，在同一个包内不能重复
+  字段名 字段类型 //字段名： 表示结构体字段名，结构体中的字段名必须唯一
+  字段名 字段类型 //字段类型：表示结构体字段的具体类型
 }
 ```
 
@@ -23,30 +25,47 @@ type 标识符 struct{
 > Struct 中字段访问，和其他语言一样，使用点
 
 ```go
-var stu student
-stu.name = "tony"
-stu.age = 18
-stu.score = 20
-fmt.Printf("name=%s age=%s score=%s",stu.name,stu.age,stu.score)
+type person struct{
+  name，city string
+  age int8
+}
+结构体用来描述一组值，比如一个人有名字，年龄，居住城市等
 ```
 
+## struct的实例化
 
-
-### struct定义的3种形式
+> - struct的内存布局， struct中的所有字段的内存是连续的
+>
+> - 结构体只有实例化以后，才会真正分配内存，也就是必须实例化以后才能使用结构体的字段
+>
+> - 结构体本身也是一种类型，可以像声明内置类型一样使用var关键字声明结构体类型
 
 ```go
-a. var stu Student
-b. var stu *Student = new(Student) //new返回一个指针
-c. var stu *Student = &Student{}  //定义一个结构体的指针
+var 结构体实例 结构体类型
+
+type person struct {
+	name string
+	city string
+	age  int8
+}
+func main() {
+	var p1 person
+	p1.name = "沙河娜扎"
+	p1.city = "北京"
+	p1.age = 18
+	fmt.Printf("p1=%v\n", p1)  //p1={沙河娜扎 北京 18}
+	fmt.Printf("p1=%#v\n", p1) //p1=main.person{name:"沙河娜扎", city:"北京", age:18}
+}
 ```
 
-1. 其中b,c返回的都是指向结构体的指针，访问形式如下：
+## 匿名结构体
 
-   `Stu.name 、stu.age和stu.score或者(*stu).name 、(*stu).age等`
-
-## struct的初始化
-
-> struct的内存布局， struct中的所有字段的内存是连续的，布局如下
+```go
+    var user struct{Name string; Age int} //定义匿名结构体
+    user.Name = "小王子"
+    user.Age = 18
+    fmt.Printf("%#v\n", user)
+```
 
 ### 链表的定义
 

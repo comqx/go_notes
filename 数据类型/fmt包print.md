@@ -129,7 +129,7 @@ func main(){
 	fmt.Printf("%q\n",str)
 }
 ```
-## sprintf
+## Sprintf
 
 >是输出到串，一般是直接申请输出到一个字符串中，可以用来将大量数字数据转换成字符串
 ```go
@@ -139,7 +139,44 @@ func main(){
 	fmt.Println(c) //hello+wolrd
 ```
 
-## fprintf
+## Fprintf
 
 >是输出到文件，当然，这个文件也可能是虚拟的文件
+
+```GO
+	fmt.Fprintln(os.Stdout, "向标准输出写入内容")                                               //向标准输出写入内容
+	fileobj, err := os.OpenFile("./xx.txt", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644) //定义了文件名，文件权限
+	if err != nil {
+		fmt.Println("打开文件出错，err:", err)
+		return
+	}
+	name := "沙河小王子"
+	fmt.Fprintf(fileobj, "往文件中写入信息：%s", name) //写入内容到文件中，
+```
+
+# Scan
+
+> scan从标准输入扫描文本,读取由空白符分割的值保存到传递给对应的地址
+
+```go
+var (
+	name string
+  age int
+  married bool
+)
+fmt.Scan(&name,&age,&married)
+fmt.Printf("扫描结果 name:%s age:%d married:%t \n", name, age, married)
+```
+
+## Scanf
+
+```go
+	var (
+		name    string
+		age     int
+		married bool
+	)
+	fmt.Scanf("1:%s 2:%d 3:%t", &name, &age, &married) //1:abc 2:10 3:false 格式化接收值并赋值给指定的变量
+	fmt.Printf("扫描结果 name:%s age:%d married:%t \n", name, age, married)
+```
 
