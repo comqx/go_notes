@@ -89,14 +89,15 @@ fmt.Println(p3)
 ## 匿名结构体
 
 ```go
-//定义，并声明结构体，并初始化
-var s struct {
-  x string
-  y int
+//匿名结构体。定义，并声明结构体，并初始化
+func s1(){
+  var s struct {
+    x string
+    y int
+  }{10,20}
+  
+  fmt.Printf("type:%T, value:%v\n",s,s) 
 }
-s.x = "嘿嘿嘿"
-s.y = 100
-fmt.Printf("type:%T, value:%v\n",s,s)
 ```
 ## 指针类型结构体初始化
 
@@ -203,7 +204,7 @@ n.d 0xc0000a0063
 
 【进阶知识点】关于Go语言中的内存对齐推荐阅读:[在 Go 中恰到好处的内存对齐](https://segmentfault.com/a/1190000017527311?utm_campaign=studygolang.com&utm_medium=studygolang.com&utm_source=studygolang.com)
 
-## 构造函数
+## 使用构造函数初始化结构体
 
 - 构造函数：约定成俗用new开头
 - 返回的是结构体还是结构体指针
@@ -450,6 +451,11 @@ func main() {
 }
 
 ```
+
+### 序列化注意事项
+
+1. 序列化的时候需要结构体内部的值首字母大写
+2. 反序列化需要传指针
 
 ## 链表的定义
 

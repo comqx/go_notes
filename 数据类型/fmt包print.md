@@ -150,11 +150,14 @@ func main(){
 		fmt.Println("打开文件出错，err:", err)
 		return
 	}
+
 	name := "沙河小王子"
 	fmt.Fprintf(fileobj, "往文件中写入信息：%s", name) //写入内容到文件中，
 ```
 
 # Scan
+
+## Scan
 
 > scan从标准输入扫描文本,读取由空白符分割的值保存到传递给对应的地址
 
@@ -179,4 +182,6 @@ fmt.Printf("扫描结果 name:%s age:%d married:%t \n", name, age, married)
 	fmt.Scanf("1:%s 2:%d 3:%t", &name, &age, &married) //1:abc 2:10 3:false 格式化接收值并赋值给指定的变量
 	fmt.Printf("扫描结果 name:%s age:%d married:%t \n", name, age, married)
 ```
+
+## Scanln
 
