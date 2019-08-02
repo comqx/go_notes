@@ -139,12 +139,20 @@ func main(){
 	fmt.Println(c) //hello+wolrd
 ```
 
+## Fprintln
+
+```go
+// 向标准输出写入内容
+fmt.Fprintln(输入句柄, 内容)
+
+fmt.Fprintln(os.Stdout, "向标准输出写入内容")
+```
+
 ## Fprintf
 
 >是输出到文件，当然，这个文件也可能是虚拟的文件
 
 ```GO
-	fmt.Fprintln(os.Stdout, "向标准输出写入内容")                                               //向标准输出写入内容
 	fileobj, err := os.OpenFile("./xx.txt", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644) //定义了文件名，文件权限
 	if err != nil {
 		fmt.Println("打开文件出错，err:", err)
