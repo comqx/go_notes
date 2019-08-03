@@ -1,5 +1,6 @@
-[TOC]
-
+- [strings方法使用](#strings方法使用)
+- [*内置函数len()](#内置函数len)
+- [*rune计算string的字符数](#rune计算string的字符数)
 # strings方法使用
 
 ```go

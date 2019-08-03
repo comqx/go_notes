@@ -1,5 +1,27 @@
-[TOC]
-
+- [print](#print)
+	- [Print](#print)
+	- [Println](#println)
+	- [Printf](#printf)
+		- [普通用法（General）](#普通用法general)
+		- [布尔类型（Boolean）](#布尔类型boolean)
+		- [整数（Integer）](#整数integer)
+		- [整数宽度（Integer width）](#整数宽度integer-width)
+		- [浮点型（Float）](#浮点型float)
+		- [字符串（String）](#字符串string)
+		- [字符串宽度（String Width）](#字符串宽度string-width)
+		- [结构（Struct）](#结构struct)
+		- [指针（Pointer）](#指针pointer)
+		- [例子](#例子)
+- [sprint](#sprint)
+	- [Sprintf](#sprintf)
+- [fprint](#fprint)
+	- [Fprintln](#fprintln)
+	- [Fprintf](#fprintf)
+- [Scan](#scan)
+	- [Scan](#scan-1)
+	- [Scanf](#scanf)
+	- [Scanln](#scanln)
+# print
 ## Print
 
 >就是一般的标准输出，但是不换行
@@ -11,20 +33,18 @@
 >只可以打印出格式化的字符串，可以输出字符串类型的变量，不可以输出整形变量和整形
 
 也就是说，当需要格式化输出信息时一般使用Printf,其他时候都使用Println
-### Printf详细用法
-
-#### 普通用法（General）
+### 普通用法（General）
 ```
 %v 以默认的方式打印变量的值
 %#v 相应值的go语法表示
 %T 打印变量的类型
 %% 字面上的%,不是值的占位符
 ```
-#### 布尔类型（Boolean）
+### 布尔类型（Boolean）
 ```
 %t 打印true或false
 ```
-#### 整数（Integer）
+### 整数（Integer）
 ```go
 %+d 带符号的整型，fmt.Print("%+d",255),输出是+255
 %q 打印单引号
@@ -42,7 +62,7 @@
 	fmt.Printf("unicode:%#U\n", exint) //将int类型转换为unicode字符，并且携带对应的字符 //unicode:U+5C0F '小'
 
 ```
-#### 整数宽度（Integer width）
+### 整数宽度（Integer width）
 ```
 %5d 表示该整型最大长度是5，下面这段代码
 	var exint int = 100
@@ -52,7 +72,7 @@
 %05d会在数字前面补零。
 	fmt.Printf("5d:%05d\n", exint) //5d:00100
 ```
-#### 浮点型（Float）
+### 浮点型（Float）
 
 ```
 %f (=%.6f) 6位小数点
@@ -65,7 +85,7 @@
 	fmt.Printf("float:%.3g\n", exflo) //带整数位，保留3个数字 float:3e+03
 	
 ```
-#### 字符串（String）
+### 字符串（String）
 ```go
 %s 正常输出字符串
 %q 字符串带双引号，字符串中的引号带转义符
@@ -80,7 +100,7 @@
 	fmt.Printf("string:% x\n", exstr) //将字符串转换为小写的带有空格的16进制格式 //string:6c 69 75 71 69 78 69 61 6e 67 ef bc 8c e5 88 98 e7 a5 ba e7 a5 a5
 	fmt.Printf("acsii:%c\n", exint)   //将acsii码转化为对于的值 //acsii:d
 ```
-#### 字符串宽度（String Width）
+### 字符串宽度（String Width）
 ```
 %5s 最小宽度为5
 %-5s 最小宽度为5（左对齐）
@@ -90,7 +110,7 @@
 %5.3s 如果宽度大于3，则截断
 %05s 如果宽度小于5，就会在字符串前面补零
 ```
-#### 结构（Struct）
+### 结构（Struct）
 ```
 %v 正常打印。比如：{sam {12345 67890}}
 %+v 带字段名称。比如：{name:sam phone:{mobile:12345 office:67890}
@@ -98,7 +118,7 @@
 比如main.People{name:”sam”, phone:main.Phone{mobile:”12345”, office:”67890”}}
 ```
 
-#### 指针（Pointer）
+### 指针（Pointer）
 ```
 %p 带0x的指针
 %#p 不带0x的指针
@@ -129,6 +149,7 @@ func main(){
 	fmt.Printf("%q\n",str)
 }
 ```
+# sprint
 ## Sprintf
 
 >是输出到串，一般是直接申请输出到一个字符串中，可以用来将大量数字数据转换成字符串
@@ -138,7 +159,7 @@ func main(){
 	c := fmt.Sprintf("%s+%s", a, b)
 	fmt.Println(c) //hello+wolrd
 ```
-
+# fprint
 ## Fprintln
 
 ```go
