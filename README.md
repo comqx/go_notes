@@ -8,6 +8,10 @@
   - [go run](#go-run)
   - [go install](#go-install)
   - [go doc](#go-doc)
+  - [go get [-alrtAFR]](#go-get--alrtafr)
+  - [go env](#go-env)
+  - [go fmt](#go-fmt)
+  - [go list](#go-list)
   - [交叉编译](#交叉编译)
 - [学习golang](#学习golang)
 
@@ -96,6 +100,27 @@ func main() {
 ## go doc
 
 `go doc builtin.delete ` 查看builtin.delete的用法
+
+## go get [-alrtAFR]
+```
+    # 显示操作流程日志及信息
+    -v
+    # 下载丢失的包，但不更新已经存在的包
+    -u
+    # 只下载，不自动安装
+    -d
+    # 允许使用 HTTP 方式进行下载操作
+    -insecure
+```
+## go env
+查看环境变量
+
+## go fmt
+格式化go代码文件
+
+## go list
+列出全部安装的package
+
 
 ## 交叉编译
 
