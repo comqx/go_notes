@@ -9,6 +9,7 @@
 - [练习题](#练习题)
 
 # 时间类型
+
 ```go
 //时间常量，以及转换
 const (
@@ -49,6 +50,7 @@ fmt.Println(now.Unix())     //1564889269  秒
 fmt.Println(now.UnixNano()) //1564889269379591000 纳秒
 ```
 ## 时间加减法
+
 ```go
 now = now.Add(24 * time.Hour) //时间加法, 2019 August 4 11 27 49
 fmt.Println(now.Year(), now.Month(), now.Day(), now.Hour(), now.Minute(), now.Second())  //2019 August 5 11 27 49
@@ -56,7 +58,8 @@ fmt.Println(now.Year(), now.Month(), now.Day(), now.Hour(), now.Minute(), now.Se
 now = now.Add(-48 * time.Hour) //时间减法，2019 August 5 11 27 49
 fmt.Println(now.Year(), now.Month(), now.Day(), now.Hour(), now.Minute(), now.Second()) //2019 August 3 11 37 0
 ```
-## 时间相减(sub) 
+## 俩个时间相减(sub)
+
 ```go
 now := time.Now()
 //默认解析的是UTC时区
@@ -84,7 +87,18 @@ td := timeObj.Sub(now)
 fmt.Println(td) //22h48m1.536951s
 ```
 
+## 定时器time.Tick()
+
+```go
+// 定时器
+timer := time.Tick(time.Second)
+for t := range timer {
+    fmt.Println(t) // 1秒钟执行一次
+}
+```
+
 # 时间之间转换
+
 ## 时间戳<--->时间格式
 ```go
 //时间戳----->自定义时间格式
