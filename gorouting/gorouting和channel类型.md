@@ -184,15 +184,122 @@ func main() {
 
 ### 单向通道
 
-> 多用于函数传参，限制函数中通道的操作
+使用场景：
+
+​		多用于函数传参，限制函数中通道的操作。
+
+```go
+// jobs <-chan int  只读类型的chan
+// results chan<- int  只写类型的chan
+func worker(id int, jobs <-chan int, results chan<- int) {
+	for j := range jobs {
+		fmt.Printf("worker:%d start job:%d\n", id, j)
+		time.Sleep(time.Second)
+		fmt.Printf("worker:%d end job:%d\n", id, j)
+		results <- j * 2
+	}
+}
+```
 
 [goroutine和channel练习题](goroutine和channel练习题.md)
 
+## 线程池
 
+使用背景：
 
-## 线程池（work pool）
+​		开启指定数量的goroutine在后台挂起，监听chan里面的数据变化，然后去处理数据，控制处理数据的线程数，防止`goroutine`泄漏和暴涨。
 
+```go
+// 使用goroutine实现生产者-消费者模型
+// 1、开启一个线程池，后台挂起3个goroutine，读取chan里面的数据，处理完成后丢到另一个chan里面
+// 2、开启多个任务给chan里面输入数据
+// 3、打印处理完成的chan里面的数据
 
+/*
+知识点：
+1、开启多个goroutine
+2、利用生产数据输入chan，goroutine消费的概念实现
+*/
+func worker(id int, jobs <-chan int, results chan<- int) {
+	for j := range jobs {
+		fmt.Printf("worker:%d start job:%d\n", id, j)
+		time.Sleep(time.Second)
+		fmt.Printf("worker:%d end job:%d\n", id, j)
+		results <- j * 2
+	}
+}
+
+func workerMain() {
+	jobs := make(chan int, 100)
+	results := make(chan int, 100)
+	//开启3个goroutine---消费者
+	for i := 1; i <= 3; i++ {
+		go worker(i, jobs, results)
+	}
+	//开启5个任务--生产者
+	for j := 1; j <= 1000; j++ {
+		jobs <- j
+	}
+	close(jobs)
+
+	//输出结果---消费者
+	for a := 1; a <= 5; a++ {
+		fmt.Println(<-results)
+	}
+}
+func main() {
+	workerMain()
+	// worker:1 start job:2
+	// worker:2 start job:3
+	// worker:3 start job:1
+	// worker:2 end job:3
+	// worker:3 end job:1
+	// 6
+	// 2
+	// worker:2 start job:4
+	// worker:3 start job:5
+	// worker:1 end job:2
+	// 4
+	// worker:2 end job:4
+	// 8
+	// worker:3 end job:5
+	// 10
+}
+```
 
 ## 多路复用（select）
 
+使用背景：
+
+​	在某种情况下可能需要同时从多个通道接收数据。通过在接受数据的时，如果没有数据，就会发生阻塞。可以考虑使用select来解决这个问题
+
+```go
+//这种也可以实现从多个通道接收值，但是运行性能会很差，所有引出select关键字来解决这个问题
+for{
+    // 尝试从ch1接收值
+    data, ok := <-ch1
+    // 尝试从ch2接收值
+    data, ok := <-ch2
+    …
+}
+
+//select解决去多个通道接收数据时，没有数据发生阻塞的问题
+func main() {
+	ch := make(chan int, 10)
+	for i := 0; i < 10; i++ {
+		select {
+		case x := <-ch:
+			fmt.Println(x)
+		case ch <- i:
+		}
+	}
+}
+```
+
+使用select的优点：
+
+​	1、使用`select`语句能提高代码的可读性。
+
+​	2、如果多个`case`同时满足，`select`会随机选择一个。
+
+​	3、对于没有`case`的`select{}`会一直等待，可用于阻塞main函数。
