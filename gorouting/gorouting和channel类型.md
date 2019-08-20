@@ -12,8 +12,6 @@
 - goroutine是go语言的运行时(runtime)调度完成，而线程是由操作系统调度完成
 - goroutine之间通信使用`channel`，goroutine和channel是go语言秉承的CSP并发模式的重要实现基础 (CSP讲究的是“`以通信的方式来共享内存,不要以共享内存的方式来通信`”)
 
-
-
 ## 启动一个goroutine
 
 直接使用`go`关键字就能启动一个goroutine去执行函数
@@ -31,6 +29,8 @@ func main() {
 ```
 
 ## 启动多个goroutine
+
+### sync.WaitGroup线程等待
 
 使用sync.WaitGroup方法来等待其他goroutine完成
 
@@ -63,7 +63,7 @@ func main() {
 
 ### goroutine调度（GMP）
 
-- Goroutine与Machine因为Processor的存在，形成了多对多（M:N）的关系。
+- Goroutine与Machine因为Processor的存在，形成了多对多（M:N）的关系。`把m个goroutine分配给n个操作系统线程`
 
 - `GMP`是go语言运行时（runtime）层面的实现，是go语言自己实现的一套调度系统，区别于操作系统调度OS线程
 
@@ -81,7 +81,7 @@ func main() {
 
 ​		Processor的数量同时可以并发任务的数量，可通过GOMAXPROCS限制同时执行用户级任务的操作系统线程。GOMAXPROCS值默认是CPU的可用核心数，但是其数量是可以指定的。在go语言运行时环境，可以使用`runtime.GOMAXPROCS(MaxProcs)`来指定Processor数量。
 
-### GOMAXPROCS
+### runtime.GOMAXPROCS
 
 >Go运行时的调度器使用`GOMAXPROCS`参数来确定需要使用多少个OS线程来同时执行Go代码。
 
@@ -126,7 +126,7 @@ func main() {
 2. go程序可以同时使用多个操作系统线程。
 3. goroutine和OS线程是多对多的关系，即m:n
 
-## channel类型
+# channel类型
 
 ​	**通道必须使用make函数初始化才能使用!!!**
 
@@ -134,13 +134,19 @@ func main() {
 var b chan int //定义一个名字为b的int类型chan
 ```
 
-### channel类型的操作符(<-)
+## 为啥需要channel
+
+1. 通过channel实现多个goroutine之间的通信。
+
+2. `CSP`:通过通信来共享内存。
+
+## channel类型的操作符(<-)
 
 - 发送：`ch1 <-1`
 - 接收：`A<-ch1`
 - 关闭：`close()`       chan关闭，不影响读取里面的内容
 
-### 带缓冲的channel和不带缓冲的channel
+## 带缓冲的channel和不带缓冲的channel
 
 > 无缓冲的channel要想发送值，必须有人接收值
 
@@ -184,7 +190,7 @@ func main() {
 
 ![image-20190817103631846](../images/image-20190817103631846-6009391.png)
 
-### 单向通道
+## 单向通道
 
 使用场景：
 
@@ -205,7 +211,7 @@ func worker(id int, jobs <-chan int, results chan<- int) {
 
 [goroutine和channel练习题](goroutine和channel练习题.md)
 
-## 线程池
+# 线程池
 
 使用背景：
 
@@ -269,7 +275,7 @@ func main() {
 }
 ```
 
-## 多路复用（select）
+# 多路复用（select）
 
 使用背景：
 
@@ -306,7 +312,7 @@ func main() {
 
 ​	3、对于没有`case`的`select{}`会一直等待，可用于阻塞main函数。
 
-### 空select{}
+## 空select{}
 
 没有`case`的`select{}`会一直等待，用来阻塞main函数
 
