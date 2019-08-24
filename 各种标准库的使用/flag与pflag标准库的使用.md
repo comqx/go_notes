@@ -23,6 +23,8 @@ pflag 包与 flag 包的工作原理甚至是代码实现都是类似的，下�
 
 ### MarkHidden 隐藏参数
 
+### SetNormalizeFunc 解决传参不规范的问题
+
 ```go
 package main
 
@@ -52,6 +54,7 @@ func wordSepNormailzeFunc(f *flag.FlagSet, name string) flag.NormalizedName {
 
 func main() {
 	// 设置标准化参数名称的函数
+  // 如果我们创建了名称为 --des-detail 的参数，但是用户却在传参时写成了 --des_detail 或 --des.detail 会怎么样？默认情况下程序会报错退出，但是我们可以通过 pflag 提供的 SetNormalizeFunc 功能轻松的解决这个问题
 	flag.CommandLine.SetNormalizeFunc(wordSepNormailzeFunc)
 
 	// 为 age 参数设置 NoOptDefVal 默认值，通过简便的方式为参数设置默认值之外的值
