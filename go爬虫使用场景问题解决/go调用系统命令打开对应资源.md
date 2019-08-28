@@ -9,8 +9,6 @@
 - windows：`start http://baidu.com`
 - linux： `xdg-open http://baidu.com`
 
-
-
 ```go
 package main
 // 打开系统默认浏览器
@@ -43,4 +41,11 @@ func main() {
 ```
 
 
+
+# post请求的时候head注意
+
+```go
+//post请求，必须要设定Content-Type为application/x-www-form-urlencoded，post参数才可正常传递。
+req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+```
 

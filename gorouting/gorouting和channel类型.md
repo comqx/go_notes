@@ -322,3 +322,12 @@ func main() {
 
 没有`case`的`select{}`会一直等待，用来阻塞main函数
 
+```go
+select{}
+//等价于下面的创建一个通道，直接从通道中读取数据
+ch := make(chan int)
+<-ch
+```
+
+
+

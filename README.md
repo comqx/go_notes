@@ -120,7 +120,14 @@ func main() {
 格式化go代码文件
 
 ## go list
+
 列出全部安装的package
+
+## go tool
+
+ 查看汇编语言 go tool compile -S  main.go 
+
+
 
 
 ## 交叉编译
