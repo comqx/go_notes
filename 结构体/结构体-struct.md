@@ -448,6 +448,13 @@ func main() {
 ### 结构体的标签（tag）
 
 ```go
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+)
+
 // 标签：	Name string `json:"name" db:"name" ini:"name"`
 
 //struct中的值首字母都必须大写
