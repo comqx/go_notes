@@ -25,6 +25,10 @@ CREATE TABLE `user` (
 
 ## 初始化连接
 
+驱动注册的原理
+
+![image-20190903202810313](../images/image-20190903202810313.png)
+
 ### SetMaxOpenConns
 
 ### SetMaxIdleConns
