@@ -94,16 +94,19 @@ Content-Type: text/xml
 
 服务器根据请求头“Accept=application/json”生产json数据。
 
-
-
+```
 当你有如下Accept头，将遵守如下规则进行应用：
+
 ①Accept：text/html,application/xml,application/json
-      将按照如下顺序进行produces的匹配 ①text/html ②application/xml ③application/json
+	将按照如下顺序进行produces的匹配 ①text/html ②application/xml ③application/json
+	
 ②Accept：application/xml;q=0.5,application/json;q=0.9,text/html
       将按照如下顺序进行produces的匹配 ①text/html ②application/json ③application/xml
       参数为媒体类型的质量因子，越大则优先权越高(从0到1)
+      
 ③Accept：*/*,text/*,text/html
       将按照如下顺序进行produces的匹配 ①text/html ②text/* ③*/*
+```
 
 
 
