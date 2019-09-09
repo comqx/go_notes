@@ -103,6 +103,13 @@ for t := range timer {
 }
 ```
 
+## 指定时区
+
+```go
+time.Now().Local() //本地时区
+time.Now().UTC() // UTC时区
+```
+
 # 时间之间转换
 
 ## 时间戳<--->时间格式
