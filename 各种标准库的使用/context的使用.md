@@ -205,46 +205,44 @@ func witchCancelMain() {
 }
 ```
 
-### WithDeadline---设置超时时间
+### WithDeadline
 
 > 函数签名：`func WithDeadline(parent Context, deadline time.Time) (Context, CancelFunc)`
 >
-> 返回父上下文的副本，并将deadline调整为不迟于d。如果父上下文的deadline已经早于d，则WithDeadline(parent, d)在语义上等同于父上下文。当截止日过期时，当调用返回的cancel函数时，或者当父上下文的Done通道关闭时，返回上下文的Done通道将被关闭，以最先发生的情况为准。
->
->  取消此上下文将释放与其关联的资源，因此代码应该在此上下文中运行的操作完成后立即调用cancel。
 
 ```go
 //context.WitchDeadline
 func witchDeadLineMain() {
 	d := time.Now().Add(2000 * time.Millisecond) // 超时时间
-  // d := time.Now().Add(50 * time.Millisecond) // 超时时间
 	ctx, cancel := context.WithDeadline(context.Background(), d)
 	// 尽管ctx会过期，但在任何情况下调用它的cancel函数都是很好的实践。
 	// 如果不这样做，可能会使上下文及其父类存活的时间超过必要的时间。
 	defer cancel()
 	select {
-  //1秒以后执行
-	case <-time.After(1 * time.Second): //代码执行时间
+	case <-time.After(1 * time.Second):
 		fmt.Println("lqx")
-	case <-ctx.Done(): //看谁先接收到值，先接收到的先执行。
-		fmt.Println(ctx.Err()) // 如果超时时间大于代码执行时间，那么会直接关闭掉上下文返回报错：context deadline exceeded
+	case <-ctx.Done():
+		fmt.Println(ctx.Err())
 	}
 }
+// 返回父上下文的副本，并将deadline调整为不迟于d。如果父上下文的deadline已经早于d，则WithDeadline(parent, d)在语义上等同于父上下文。当截止日过期时，当调用返回的cancel函数时，或者当父上下文的Done通道关闭时，返回上下文的Done通道将被关闭，以最先发生的情况为准。
 
-// 定义了一个50毫秒之后过期的deadline，然后我们调用context.WithDeadline(context.Background(), d)得到一个上下文（ctx）和一个取消函数（cancel），然后使用一个select让主程序陷入等待：等待1秒后打印overslept退出或者等待ctx过期后退出。 因为ctx50毫秒后就过期，所以ctx.Done()会先接收到值，上面的代码会打印ctx.Err()取消原因。
+// 取消此上下文将释放与其关联的资源，因此代码应该在此上下文中运行的操作完成后立即调用cancel。
+
+// 定义了一个50毫秒之后过期的deadline，然后我们调用context.WithDeadline(context.Background(), d)得到一个上下文（ctx）和一个取消函数（cancel），然后使用一个select让主程序陷入等待：等待1秒后打印overslept退出或者等待ctx过期后退出。 因为ctx50秒后就过期，所以ctx.Done()会先接收到值，上面的代码会打印ctx.Err()取消原因。
 ```
 
-### WithTimeout---超时时间
+### WithTimeout
 
-> 函数签名：`func WithTimeout(parent Context, timeout time.Duration) (Context, CancelFunc)`
+>函数签名：`func WithTimeout(parent Context, timeout time.Duration) (Context, CancelFunc)`
 >
-> `WithTimeout`返回`WithDeadline(parent, time.Now().Add(timeout))`。
->
-> 取消此上下文将释放与其相关的资源，因此代码应该在此上下文中运行的操作完成后立即调用cancel，通常用于数据库或者网络连接的超时控制。具体示例如下：
+>`WithTimeout`返回`WithDeadline(parent, time.Now().Add(timeout))`
 
 ```go
 // context.WithTimeout
+
 var wg sync.WaitGroup
+
 func worker(ctx context.Context) {
 LOOP:
 	for {
@@ -275,12 +273,9 @@ func withTimeOutMain() {
 ### WithValue
 
 > 函数签名：`func WithValue(parent Context, key, val interface{}) Context`
->
-> `WithValue`函数能够将请求作用域的数据与 Context 对象建立关系。
 
 ```go
 // context.WithValue
-
 type TraceCode string
 
 func workers(ctx context.Context) {
@@ -317,11 +312,10 @@ func withValueMain() {
 }
 ```
 
-# 使用context的注意事项
+# 使用Context的注意事项
 
 - 推荐以参数的方式显示传递Context
 - 以Context作为参数的函数方法，应该把Context作为第一个参数。
 - 给一个函数方法传递Context的时候，不要传递nil，如果不知道传递什么，就使用context.TODO()
 - Context的Value相关方法应该传递请求域的必要数据，不应该用于传递可选参数
 - Context是线程安全的，可以放心的在多个goroutine中传递
-

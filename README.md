@@ -1,19 +1,4 @@
-
-- [golang语言特性](#golang语言特性)
-- [包的概念](#包的概念)
-- [go程序目录结构](#go程序目录结构)
-- [go程序基本结构](#go程序基本结构)
-- [编译go](#编译go)
-  - [go build](#go-build)
-  - [go run](#go-run)
-  - [go install](#go-install)
-  - [go doc](#go-doc)
-  - [go get [-alrtAFR]](#go-get--alrtafr)
-  - [go env](#go-env)
-  - [go fmt](#go-fmt)
-  - [go list](#go-list)
-  - [交叉编译](#交叉编译)
-- [学习golang](#学习golang)
+[TOC]
 
 # golang语言特性
 
@@ -169,24 +154,24 @@ export GOPROXY=https://goproxy.cn    Mac
 SET GOPROXY=https://goproxy.cn       Windows
 ```
 
-## go module相关文件
+## go.mod文件
 
-### go module文件
+记录了当前项目依赖的第三方包信息和版本信息
 
-> 记录当前项目依赖的第三方包信息和版本信息
->
-> 第三方的依赖包都下载到了GOPATH/pkg/mod目录下面
+第三方的依赖包都下载到了 `GOPATH/pkg/mod`目录下。
 
-### Go.sum文件
+## go.sum文件
 
-> 详细包名和版本信息
+详细包名和版本信息
 
-## 常用命令
+## 常用的命令
 
-```GO
-go mod init [包名] //初始化项目
-go mod tidy //检查代码里的依赖去更新go.mod文件中的依赖
-go get  等同于  go mod download
+```go
+go mod init [包名] // 初始化项目
+
+go mod tidy // 检查代码里的依赖去更新go.mod文件中的依赖
+
+go get 或者go mod download
 ```
 
 # 学习golang
