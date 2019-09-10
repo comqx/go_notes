@@ -150,6 +150,45 @@ CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build
 CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build
 ```
 
+# go module
+
+> 使用go1.11 go1.12的版本，需要手动开启go module支持
+>
+> 开启办法：
+>
+> `set GO111MODULE=on //windows`
+>
+> `export GO111MODULE=on //mac` 
+
+## goproxy
+
+设置代理：
+
+```go
+export GOPROXY=https://goproxy.cn    Mac
+SET GOPROXY=https://goproxy.cn       Windows
+```
+
+## go module相关文件
+
+### go module文件
+
+> 记录当前项目依赖的第三方包信息和版本信息
+>
+> 第三方的依赖包都下载到了GOPATH/pkg/mod目录下面
+
+### Go.sum文件
+
+> 详细包名和版本信息
+
+## 常用命令
+
+```GO
+go mod init [包名] //初始化项目
+go mod tidy //检查代码里的依赖去更新go.mod文件中的依赖
+go get  等同于  go mod download
+```
+
 # 学习golang
 
 ```
