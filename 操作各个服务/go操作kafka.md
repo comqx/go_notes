@@ -112,7 +112,7 @@ import (
 // 基于sarama第三⽅库开发的kafka client
 func main() {
 	config := sarama.NewConfig()
-	// tailf包使⽤
+  //指定kafka发送消息的配置
 	config.Producer.RequiredAcks = sarama.WaitForAll // 发送完数据需要leader和follow都确认
 	config.Producer.Partitioner = sarama.NewRandomPartitioner // 新选出⼀个 partition
 	config.Producer.Return.Successes = true // 成功交付的消息将在success channel返回
@@ -132,7 +132,6 @@ func main() {
 	defer client.Close()
 	// 发送消息
 	pid, offset, err := client.SendMessage(msg)
-	fmt.Println("xxx")
 	if err != nil {
 		fmt.Println("send msg failed, err:", err)
 		return
