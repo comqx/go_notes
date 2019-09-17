@@ -26,7 +26,9 @@ $ go-callvis [flags] package
 **以orchestrator项目为例，其代码已经下载到本地。**
 
 ```shell
-$ go-callvis github.com/github/orchestrator/go/cmd/orchestrator
+// go-callvis main.go
+
+go-callvis github.com/github/orchestrator/go/cmd/orchestrator
 ```
 如果没有focus标识，默认是main
 
