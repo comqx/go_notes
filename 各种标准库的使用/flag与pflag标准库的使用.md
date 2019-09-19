@@ -42,6 +42,7 @@ var cliOK = flag.BoolP("ok", "o", false, "Are you ok")
 var cliDes = flag.StringP("des-detail", "d", "", "Input Description")
 var cliOldFlag = flag.StringP("badflag", "b", "", "Input badflag")
 var cliGender = flag.StringP("gender", "g", "male", "Input Your Gender")
+var alertUrl2 = flag.StringSliceP("urls", "s", []string{}, "input your alertmanager cluster url")
 
 func wordSepNormailzeFunc(f *flag.FlagSet, name string) flag.NormalizedName {
 	from := []string{"-", "_"}
@@ -74,7 +75,11 @@ func main() {
 
 	// 把用户传递的命令行参数解析为对应变量的值
 	flag.Parse()
-
+  
+  //传入一个切片
+  abcde := *alertUrl2
+  fmt.Println(abcde)
+  
 	fmt.Println(*cliName, *cliAge, *cliOK, *cliDes, *cliOldFlag)
   fmt.Println(flag.Args())  // [25 /abcd/a.jpg values2]  返回命令行参数后的其他参数，以[]string类型
 	fmt.Println(flag.NArg())  // 3 返回命令行参数后的其他未定义的参数个数

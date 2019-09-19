@@ -29,7 +29,7 @@ const (
 ## 时间格式化
 
 ```go
-now := time.Now()
+now := time.Now() //Time格式
 fmt.Println(now)   //2019-08-04 11:27:49.379591 +0800 CST m=+0.000178586
 fmt.Println(now.Year(), 
 			now.Month(), 

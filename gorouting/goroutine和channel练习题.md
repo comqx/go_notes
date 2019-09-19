@@ -1,3 +1,5 @@
+[TOC]
+
 # goroutine之间使用chan通信
 
 ```GO
@@ -200,6 +202,58 @@ func main() {
 	}
 	wg.Wait()
 }
+```
+
+# 实现一个异步处理接口
+
+```go
+package main
+
+import (
+	"fmt"
+	"net/http"
+	"time"
+)
+
+// 1. 启动服务之前启动多个goroutine，
+// 2. 启动server服务
+// 3. 等待post传参数，发送到通道，如果通道满了，会主动丢弃
+// 4. 如果通道有值，会触发goroutine去做处理
+var chandata = make(chan string, 100)
+
+func handfunc(wri http.ResponseWriter, r *http.Request) {
+	if r.Method == "GET" {
+		select {
+		case chandata <- r.Method:
+			break
+		default:
+			fmt.Println("管道已经满了，正在丢弃信息：", r.Method)
+			break
+		}
+	}
+	wri.Write([]byte("ok"))
+}
+func goroutinePool(n int) {
+	for i := 1; i <= n; i++ {
+		go func(gi int) {
+			fmt.Printf("第%d个goroutine启动！！！\n", gi)
+			for {
+				select {
+				case data := <-chandata:
+					fmt.Printf("我是第%d个goroutine，从管道中取出了：%s\n", gi, data)
+				default:
+					time.Sleep(time.Second * 1)
+				}
+			}
+		}(i)
+	}
+}
+func main() {
+	goroutinePool(5)
+	http.HandleFunc("/v1/aliyunalert/post", handfunc)
+	http.ListenAndServe("0.0.0.0:2000", nil)
+}
+
 ```
 
 

@@ -103,6 +103,7 @@ func openbrowser(url string) {
 	}
 }
 
+//get请求
 func login() http.Cookie {
 	Qurl := "https://account.dianping.com/account/getqrcodeimg" //定义url
 	var cookies http.Cookie  
@@ -131,6 +132,7 @@ func login() http.Cookie {
 	return cookies
 }
 
+//post请求
 //拿这二维码的cook，去循环获取认证成功后的cook
 func login_sm(cookies http.Cookie) []*http.Cookie {
 	Qurl := "https://account.dianping.com/account/ajax/queryqrcodestatus"
