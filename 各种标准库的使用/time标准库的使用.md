@@ -25,6 +25,8 @@ const (
 	Minute               = 60 * Second
 	Hour                 = 60 * Minute
 )
+
+time.Duration(5)
 ```
 ## 时间格式化
 

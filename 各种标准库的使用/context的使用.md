@@ -209,6 +209,7 @@ func witchCancelMain() {
 
 > 函数签名：`func WithDeadline(parent Context, deadline time.Time) (Context, CancelFunc)`
 >
+> 指定一个时间，是一个绝对时间。
 
 ```go
 //context.WitchDeadline
@@ -237,6 +238,10 @@ func witchDeadLineMain() {
 >函数签名：`func WithTimeout(parent Context, timeout time.Duration) (Context, CancelFunc)`
 >
 >`WithTimeout`返回`WithDeadline(parent, time.Now().Add(timeout))`
+>
+>使用相对的超时时间，多长时间之后。
+
+
 
 ```go
 // context.WithTimeout
