@@ -94,11 +94,137 @@ etcdctl.exe --endpoints=http://127.0.0.1:2379 DEL key
 
 `go.etcd.io/etcd/clientv3`
 
+## get/put/delete
 
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"go.etcd.io/etcd/clientv3"
+  // "go.etcd.io/etcd/pkg/transport" //自带的证书配置包
+	"time"
+)
+
+func main() {
+	// 使用证书
+	//tlsinfo :=transport.TLSInfo{
+	//	CertFile:           "./etcd.pem",
+	//	KeyFile:            "./etcd-key.pem",
+	//	CAFile:             "",
+	//	TrustedCAFile:      "./ca.pem",
+	//	ClientCertAuth:     false,
+	//	CRLFile:            "",
+	//	InsecureSkipVerify: false,
+	//	ServerName:         "",
+	//	HandshakeFailure:   nil,
+	//	CipherSuites:       nil,
+	//	AllowedCN:          "",
+	//}
+	//config,err:=tlsinfo.ClientConfig()
+	//if err!=nil{
+	//	fmt.Println("解析证书失败：err:",err)
+	//}
+	cli, err := clientv3.New(clientv3.Config{
+		Endpoints:   []string{"127.0.0.1:2379"},
+		DialTimeout: 5 * time.Second,
+		//TLS:config,
+	})
+	if err != nil {
+		fmt.Printf("connect to etcd failed,err:%#v\n", err)
+		return
+	}
+	fmt.Println("connect to etcd success")
+	defer cli.Close()
+  
+	// put
+	ctx,cancel := context.WithTimeout(context.Background(),time.Second)
+	_,err = cli.Put(ctx,"liuqixiang","28")
+	if err !=nil {
+		fmt.Println("put one key is err:",err)
+	}
+	cancel()
+
+	//get
+	ctx,cancel = context.WithTimeout(context.Background(),time.Second)
+	resp,err:= cli.Get(ctx,"liuqixiang")
+	cancel()
+	if err != nil {
+		fmt.Printf("get from etcd failed, err:%v\n", err)
+		return
+	}
+	cancel()
+	for _,e := range resp.Kvs{
+		fmt.Printf("%s,%s\n",e.Key,e.Value)
+	}
+  //delete 
+  ctx,cancel = context.WithTimeout(context.Background(), time.Second*1)
+	delres,err:=cli.Delete(ctx,"")
+	cancel()
+	if err != nil {
+		fmt.Printf("get from etcd failed, err:%v\n", err)
+		return
+	}
+	fmt.Println(delres.Deleted) //影响的key的数量
+	// get 全部的key
+	ctx,cancel = context.WithTimeout(context.Background(), time.Second*1)
+	resp, err = cli.Get(ctx, "",clientv3.WithPrefix())
+	cancel()
+	if err != nil {
+		fmt.Printf("get from etcd failed, err:%v\n", err)
+		return
+	}
+	for _, ev := range resp.Kvs {
+		fmt.Printf("%s,%s\n", ev.Key,ev.Value)
+	}
+}
+```
+
+## watch
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"go.etcd.io/etcd/clientv3"
+	"time"
+)
+
+func main() {
+	cli, err := clientv3.New(clientv3.Config{
+		Endpoints: []string{"127.0.0.1:2379"},
+		DialTimeout: 5 * time.Second,
+	})
+	if err != nil {
+		// handle error!
+		fmt.Printf("connect to etcd failed, err:%v\n", err)
+		return
+	}
+	defer cli.Close()
+	fmt.Println("connect to etcd success")
+
+	// watch
+	// 派一个哨兵 一直监视着 luminghui 这个key的变化（新增、修改、删除）
+	watchres :=cli.Watch(context.Background(),"liuqixiang") //返回一个管道
+	for wrep := range watchres{  //循环从管道中读取数据
+		for _,v:=range wrep.Events{
+			fmt.Printf("Type:%s key:%s value:%s\n",v.Type,string(v.Kv.Key),string(v.Kv.Value))
+			//Type:PUT key:liuqixiang value:28
+		}
+	}
+}
+```
 
 # raft协议
 
+
+
 ## 选举
+
+
 
 ## 日志复制
 
