@@ -101,6 +101,8 @@ partition在服务器上的表现相似就是一个一个的文件夹，每个pa
 
 # 操作kafka
 
+## 往kafka发送消息
+
 ```GO
 package main
 
@@ -138,6 +140,56 @@ func main() {
 	}
 	fmt.Printf("pid:%v offset:%v\n", pid, offset)
 	fmt.Println("发送成功！")
+}
+```
+
+## 从kafka读取消息
+
+```GO
+// 根据topic找所有的分区
+// 每一个分区去消费数据
+package main
+import (
+	"fmt"
+	"github.com/Shopify/sarama"
+)
+
+func main() {
+	consumer,err := sarama.NewConsumer([]string{"127.0.0.1:9092"},nil)
+	if err !=nil {
+		fmt.Printf("fail to start consumer,err:%v\n",err)
+		return
+	}
+	partitionList,err := consumer.Partitions("redis_topic") // 根据topic取到所有的分区
+	if err!=nil{
+		fmt.Printf("fail to get list of partition:err:%v\n",err)
+		return
+	}
+	fmt.Println(partitionList)
+	for partition := range  partitionList { //遍历所有的分区
+	
+		//针对每个分区创建一个对应的分区消费者
+		pc,err := consumer.ConsumePartition(
+			"redis_topic",
+			int32(partition),
+			sarama.OffsetNewest)
+		
+		if err !=nil{
+			fmt.Printf("failed to start consumer for partition %d,err:%v\n",err)
+			return
+		}
+		defer pc.AsyncClose()
+
+		//异步从每个分区消费信息
+		go func(sarama.PartitionConsumer){
+			for msg :=range pc.Messages(){
+				//打印实时消费的信息
+				fmt.Printf("partition:%d  offset:%d key:%v value:%v\n",msg.Partition,msg.Offset,msg.Key,msg.Value)
+				fmt.Printf("partition:%d  offset:%d key:%v value:%v\n",msg.Partition,msg.Offset,string(msg.Key),string(msg.Value))
+			}
+		}(pc)
+	}
+	select{} //卡住，等待异步消费的信息
 }
 ```
 
