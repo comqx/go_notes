@@ -85,9 +85,12 @@
 ```shell
 # 查看健康状态
 curl -X GET 127.0.0.1:9200/_cat/health?v
+>epoch      timestamp cluster        status node.total node.data shards pri relo init unassign pending_tasks max_task_wait_time active_shards_percent
+1570719865 15:04:25  docker-cluster green           1         1      0   0    0    0        0             0                  -                100.0%
 
 # 查询当前es集群中所有的indices （索引）
 curl -X GET 127.0.0.1:9200/_cat/indices?v
+>health status index uuid pri rep docs.count docs.deleted store.size pri.store.size
 ```
 
 ## 创建相关
@@ -108,7 +111,7 @@ curl -X DELETE 127.0.0.1:9200/www
 
 ```shell
 # 插入记录
-curl -H "ContentType:application/json" -X POST 127.0.0.1:9200/user/person -d '
+curl -H "Content-Type:application/json" -X POST 127.0.0.1:9200/user/person -d '
 {
 	"name": "dsb",
 	"age": 9000,
@@ -132,7 +135,7 @@ curl -H "ContentType:application/json" -X POST 127.0.0.1:9200/user/person -d '
 }
 
 # 也可以使用put，但是需要传入id
-curl -H "ContentType:application/json" -X PUT 127.0.0.1:9200/user/person/4 -d '
+curl -H "Content-Type:application/json" -X PUT 127.0.0.1:9200/user/person/4 -d '
 {
 	"name": "sb",
 	"age": 9,
@@ -149,7 +152,7 @@ curl -H "ContentType:application/json" -X PUT 127.0.0.1:9200/user/person/4 -d '
 curl -X GET 127.0.0.1:9200/user/person/_search
 
 # 按条件检索：
-curl -H "ContentType:application/json" -X PUT 127.0.0.1:9200/user/person/4 -d '
+curl -H "Content-Type:application/json" -X PUT 127.0.0.1:9200/user/person/4 -d '
 {
 	"query":{
 		"match": {"name": "sb"}
@@ -157,7 +160,7 @@ curl -H "ContentType:application/json" -X PUT 127.0.0.1:9200/user/person/4 -d '
 }'
 
 # ElasticSearch默认一次最多返回10条结果，可以像下面的示例通过size字段来设置返回结果的数目。
-curl -H "ContentType:application/json" -X PUT 127.0.0.1:9200/user/person/4 -d '
+curl -H "Content-Type:application/json" -X PUT 127.0.0.1:9200/user/person/4 -d '
 {
 	"query":{
 		"match": {"name": "sb"},
@@ -207,7 +210,7 @@ type Person struct {
 }
 
 func main() {
-	client, err := elastic.NewClient(elastic.SetURL("http://192.168.1.7:9200"))
+	client, err := elastic.NewClient(elastic.SetSniff(false),elastic.SetURL("http://192.168.1.7:9200"))
 	if err != nil {
 		// Handle error
 		panic(err)
@@ -225,6 +228,21 @@ func main() {
 	}
 	fmt.Printf("Indexed user %s to index %s, type %s\n", put1.Id, put1.Index, put1.Type)
 }
+```
+
+## 问题整理
+
+>通过 elastic.v5 驱动连接 ES 有具体报错：“no Elasticsearch node available”
+>通过 http 访问的访问仍然能够正常打印出来 ES 的提示信息
+
+```GO
+// 连接es抛出异常：panic: no active connection found: no Elasticsearch node available
+
+这里需要关闭Sniff程序：
+	Sniff程序自动查找默认群集的所有节点
+
+// 解决：
+client, err := elastic.NewClient(elastic.SetSniff(false),elastic.SetURL("http://192.168.1.7:9200"))
 ```
 
 
