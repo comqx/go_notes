@@ -1,4 +1,7 @@
-	Go语言在语言层面实现并发。Go编写一个并发编程程序很简单，只需要在函数调用之前使用一个`go`关键字即可启动一个goroutine执行并发。
+[TOC]
+
+> 前言：Go语言在语言层面实现并发。Go编写一个并发编程程序很简单，只需要在函数调用之前使用一个`go`关键字即可启动一个goroutine执行并发。
+
 虽然使用一个`go`关键字即可实现并发编程，但是是这个关键字的背后的实现非常复杂。
 
 ## 前导：并发与并行
@@ -20,17 +23,17 @@ Go语言的并发处理参考了CSP（Communicating Sequential Process）模型�
 
 golang的CSP模型实现与原始的CSP实现有点差别：原始的CSP中channel里的任务都是立即执行的，而go语言为其增加了一个缓存，即任务可以先暂存起来，等待执行线程准备好再顺序执行。
 
-## Go调度器
+## Go调度器GMP
 
 go语言运行时环境提供了非常强大的管理goroutine和系统内核线程的调度器， 内部提供了三种对象：Goroutine，Machine，Processor。
 
-**Goroutine** : 指应用创建的goroutine **Machine** : 指系统内核线程。 **Processor** : 指承载多个goroutine的运行器
+**Goroutine** : 指应用创建的goroutine 
+
+**Machine** : 指系统内核线程。 
+
+**Processor** : 指承载多个goroutine的运行器
 
 在宏观上说，Goroutine与Machine因为Processor的存在，形成了多对多（M:N）的关系。
-
-## Goroutine
-
-Goroutine是Go语言中并发的执行单位。 Goroutine底层是使用协程(coroutine)实现，coroutine是一种运行在用户态的用户线程（参考操作系统原理：内核态，用户态）**它可以由语言和框架层调度**。Golang在语言层面实现了调度器，同时对网络，IO库进行了封装处理，屏蔽了操作系统层面的复杂的细节，在语言层面提供统一的关键字支持。这样才实现了添加一个`go`关键字即可实现并发编程。
 
 ## Machine
 
@@ -39,6 +42,10 @@ Machine指go语言对一个关联的内核线程的封装。
 ## Processor
 
 Processor是一个抽象的概念，代表了Machine所需的上下文环境，是处理用户级代码逻辑的处理器。
+
+## Goroutine
+
+Goroutine是Go语言中并发的执行单位。 Goroutine底层是使用协程(coroutine)实现，coroutine是一种运行在用户态的用户线程（参考操作系统原理：内核态，用户态）**它可以由语言和框架层调度**。Golang在语言层面实现了调度器，同时对网络，IO库进行了封装处理，屏蔽了操作系统层面的复杂的细节，在语言层面提供统一的关键字支持。这样才实现了添加一个`go`关键字即可实现并发编程。
 
 三者与内核级线程的关系如下图所示：
 
