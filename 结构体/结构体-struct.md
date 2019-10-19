@@ -470,14 +470,14 @@ func main() {
 		Name: "liuqixiang",
 		Age:  20,
 	}
-	//序列化
+	//序列化,struct-->json
 	b, err := json.Marshal(p1) //返回的是一个[]byte类型
 	if err != nil {
 		fmt.Printf("marshal failed，err:%v\n", err)
 	}
 	fmt.Printf("%v\n", string(b)) //byte转换为string  {"name":"liuqixiang","age":20}
 
-	//反序列化
+	//反序列化,json-->struct
 	jsonStr := `{"name":"liuqixiang","age":20}`
 	var p2 person
 	json.Unmarshal([]byte(jsonStr), &p2) //传指针是为了能在json.Unmarshal内部修改p2的值
