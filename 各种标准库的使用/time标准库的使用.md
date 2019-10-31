@@ -93,6 +93,11 @@ fmt.Println(timeObj) //2019-08-04 22:22:22 +0800 CST
 //俩个时间相减(需要先把时区转换为相同的时区，再去做减法，避免加入时区时间)
 td := timeObj.Sub(now)
 fmt.Println(td) //22h48m1.536951s
+
+// 计算某个时间到现在是多久
+t:=time.Now()
+t2:=time.Since(t)// 计算时间间隔，t时间以后到现在是多长时间
+fmt.Println(t2)
 ```
 
 ## 定时器time.Tick()
