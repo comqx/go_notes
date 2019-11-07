@@ -209,7 +209,7 @@ func witchCancelMain() {
 
 > 函数签名：`func WithDeadline(parent Context, deadline time.Time) (Context, CancelFunc)`
 >
-> 指定一个时间，是一个绝对时间。
+> 获取当前时间，然后添加一个时间，是一个绝对时间。
 
 ```go
 //context.WitchDeadline
@@ -276,6 +276,8 @@ func withTimeOutMain() {
 ### WithValue
 
 > 函数签名：`func WithValue(parent Context, key, val interface{}) Context`
+>
+> 
 
 ```go
 // context.WithValue
