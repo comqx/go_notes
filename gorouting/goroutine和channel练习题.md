@@ -256,5 +256,38 @@ func main() {
 
 ```
 
+# 并发goreoute交替打印1-20的数
+
+```go
+func main() {
+	wg := &sync.WaitGroup{}
+	evenNumChan := make(chan int)
+	oddNumChan := make(chan int)
+
+	wg.Add(2)
+	go say1(wg, oddNumChan, evenNumChan)
+	go say2(wg, evenNumChan, oddNumChan)
+	wg.Wait()
+	time.Sleep(1 * time.Second)
+}
+
+func say1(wg *sync.WaitGroup, oddNumChan chan int, evenNumChan chan int) {
+	defer wg.Done()
+	for i := 1; i <= 10; i++ {
+		oddNumChan <- 2*i - 1 // oddNumChan(1,3) 
+		fmt.Println("say1>>>", <-evenNumChan) // pend  2 pend  4
+	}
+}
+
+func say2(wg *sync.WaitGroup, evenNumChan chan int, oddNumChan chan int) {
+	defer wg.Done()
+	for i := 1; i <= 10; i++ {
+		fmt.Println("say2>>>", <-oddNumChan)  // 1 pend 3
+		evenNumChan <- 2 * i  // evenNumChan(2,4)
+	}
+}
+
+```
+
 
 
