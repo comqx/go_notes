@@ -30,15 +30,9 @@ func httpclient() {
 
 **可以看到全部都是established状态,并且还在持续的增加**
 
-
-
 ![image-20190918191407510](../images/image-20190918191407510.png)
 
 ![image-20190918191604917](../images/image-20190918191604917.png)
-
-
-
-
 
 # 关闭keepalive
 
@@ -66,8 +60,6 @@ func httpclient() {
 ---
 
 **可以很直观的看到连接都是建立发送完消息，就立马关闭了。并且只有一个established状态的连接。**
-
-
 
 ![image-20190918191822544](../images/image-20190918191822544.png)
 
