@@ -179,6 +179,11 @@ go mod init [包名] // 初始化项目
 go mod tidy // 检查代码里的依赖去更新go.mod文件中的依赖
 
 go get 或者go mod download
+
+go get -u [包名] // 下载包
+go get github.com/wilk/uuid@0.0.1 // 指定版本
+
+go clean -i -n  [包名]  // 卸载包
 ```
 
 # 学习golang

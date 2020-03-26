@@ -46,7 +46,7 @@ fmt.Println(now.Date())     //2019 August 4
 // 24小时制
 fmt.Println(now.Format("2006-01-02 15:04:05.000 Mon Jan"))
 // 12小时制
-fmt.Println(now.Format("2006-01-02 03:04:05.000 PM Mon Jan"))
+fmt.Println(now.Format("2006-01-02 03:04:05.000 PM Mon Jan")) // 返回string类型
 fmt.Println(now.Format("2006/01/02 15:04"))
 fmt.Println(now.Format("15:04 2006/01/02"))
 fmt.Println(now.Format("2006/01/02"))
