@@ -115,4 +115,5 @@ DELETE /collection/resource：返回一个空文档
 
 在项目根目录里执行`swag init`，生成`docs/docs.go`；再执行`go run main.go`，访问`http://localhost:8080/swagger/index.html`，就可以愉快的使用swagger ui了。
 
-![swagger-ui](../images/swagger.png)
+![swagger-ui](https://picgo-img.oss-cn-beijing.aliyuncs.com/md-img/2020-11-27/1606442355.png)
+

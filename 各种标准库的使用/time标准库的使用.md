@@ -160,6 +160,7 @@ fmt.Println(timeObj) //2019-08-04 22:22:22 +0800 CST
 ```
 
 # 练习题
+
 ```go
 // 1、获取当前时间，格式化输出为2017/06/19 20:30:05`格式。
 // 2、编写程序统计一段代码的执行耗时时间，单位精确到微秒。
@@ -177,3 +178,19 @@ func times(time1 func()) {
 
 }
 ```
+
+# string 解析成time类型
+
+```go
+	var (
+		t time.Time
+		err error
+    a ="02/Dec/2020:15:20:51+0800"
+	)
+	if t,err =time.Parse("01/Jan/2006:15:04:05 +0800",b);err !=nil{
+		fmt.Println(err)
+	}
+	fmt.Println(t)
+	fmt.Println(t.Format("2006-01-02T15:04:05.000+0800"))
+```
+

@@ -205,3 +205,250 @@ func main() {
 }
 ```
 
+# kafka消费组使用
+
+> 第三方包: github.com/bsm/sarama-cluster
+
+```go
+package kafka
+
+import (
+	"encoding/json"
+	"fmt"
+	"github.com/bsm/sarama-cluster"
+	"os"
+	"os/signal"
+	"strconv"
+	"strings"
+	"time"
+)
+
+
+var (
+	KafkaDataChan = make(chan []byte, 10000)
+)
+
+type kafkaDataStruct struct {
+	Timestamp   string            `json:"@timestamp"`
+	Beat        map[string]string `json:"beat"`
+	Env         string            `json:"env"`
+	Message     string            `json:"message"`
+	ServiceName string            `json:"service_name"`
+	Source      string            `json:"source"`
+}
+
+
+func Kafkas() {
+	var (
+		err error
+    brokers = []string{"10.127.92.103:9092", "10.127.92.104:9092", "10.127.92.105:9092"}
+    topics =[]string{"sg-nginx-logs"}
+    group= "nginx-aggregation-group"
+	)
+  // 创建消费者配置文件
+	config := cluster.NewConfig()
+	config.Group.Mode = cluster.ConsumerModePartitions
+	config.Net.MaxOpenRequests = 12
+	config.ChannelBufferSize = 1024
+  // 生成一个消费者组
+	consumer, err := cluster.NewConsumer(brokers, group, topics, config)
+	if err != nil {
+		fmt.Println("kafka :", err)
+	}
+	// 生成一个接受系统信号的chan，并监听系统中断信号
+	signals := make(chan os.Signal, 1)
+	signal.Notify(signals, os.Interrupt)
+
+  // 开启线程处理消息
+	for i := 0; i < 30; i++ {
+		go func() {
+			for kafkaDataByte := range KafkaDataChan {
+				kafkaData := kafkaDataStruct{}
+				if err = json.Unmarshal(kafkaDataByte, &kafkaData); err != nil {
+					fmt.Println("解析失败：", err)
+				}
+				esData := repleteWord(kafkaData.Message, kafkaData.ServiceName, kafkaData.Source)
+				if esData.Url == "" {
+					fmt.Println("丢弃空数据：", esData)
+					continue
+				}
+				fmt.Println("EsClan堆积情况:", len(es.EsClan))
+        // 处理完数据丢到esChan里面
+				es.EsClan <- &esData
+			}
+		}()
+	}
+
+  // 每个分区都开启一个goroute，去kafka读消息，然后转存到kafkaDataClan里面
+	for {
+		select {
+		case part, ok := <-consumer.Partitions():
+			if !ok {
+				return
+			}
+			go func(pc cluster.PartitionConsumer) {
+				for msg := range pc.Messages() {
+					fmt.Println("kafka堆积情况：", len(KafkaDataChan))
+					KafkaDataChan <- msg.Value
+				}
+			}(part)
+		case <-signals:
+			return
+		}
+	}
+}
+
+
+func main(){
+  Kafkas() 
+}
+```
+
+# 别人封装好的的kafka消费组
+
+```go
+import (
+	"context"
+	"os"
+	"os/signal"
+	"sync"
+	"syscall"
+	"time"
+
+	"github.com/Shopify/sarama"
+	log "github.com/sirupsen/logrus"
+)
+
+type Kafka struct {
+	brokers []string
+	topics  []string
+	//OffsetNewest int64 = -1
+	//OffsetOldest int64 = -2
+	startOffset       int64
+	version           string
+	ready             chan bool
+	group             string
+	channelBufferSize int
+}
+
+func NewKafka() *Kafka {
+	return &Kafka{
+		brokers: brokers,
+		topics: []string{
+			topics,
+		},
+		group:             group,
+		channelBufferSize: 2,
+		ready:             make(chan bool),
+		version:           "1.1.1",
+	}
+}
+
+var brokers = []string{"10.2.76.154:9092"}
+var topics = "web_log"
+var group = "39"
+
+func (p *Kafka) Init() func() {
+	log.Infoln("kafka init...")
+
+	// 获取kafka版本信息
+	version, err := sarama.ParseKafkaVersion(p.version)
+	if err != nil {
+		log.Fatalf("Error parsing Kafka version: %v", err)
+	}
+	config := sarama.NewConfig()
+	config.Version = version
+	config.Consumer.Group.Rebalance.Strategy = sarama.BalanceStrategyRange // 分区分配策略
+	config.Consumer.Offsets.Initial = -2                                   // 未找到组消费位移的时候从哪边开始消费
+	config.ChannelBufferSize = p.channelBufferSize                         // channel长度
+
+	// 初始化一个context
+	ctx, cancel := context.WithCancel(context.Background())
+	consumerClient, err := sarama.NewConsumerGroup(p.brokers, p.group, config)
+	if err != nil {
+		log.Fatalf("Error creating consumer group client: %v", err)
+	}
+
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+	go func() {
+		defer func() {
+			wg.Done()
+			//util.HandlePanic("client.Consume panic", log.StandardLogger())
+		}()
+		for {
+			if err := consumerClient.Consume(ctx, p.topics, p); err != nil {
+				log.Fatalf("Error from consumer: %v", err)
+			}
+			// 检查上下文是否已取消，表明使用者应该停止
+			// check if context was cancelled, signaling that the consumer should stop
+			if ctx.Err() != nil {
+				log.Println(ctx.Err())
+				return
+			}
+			p.ready = make(chan bool)
+		}
+	}()
+	<-p.ready
+	log.Infoln("Sarama consumer up and running!...")
+	// 保证在系统退出时，通道里面的消息被消费
+	return func() {
+		log.Info("kafka close")
+		// 关闭context
+		cancel()
+		wg.Wait()
+		if err = consumerClient.Close(); err != nil {
+			log.Errorf("Error closing client: %v", err)
+		}
+	}
+}
+
+// Setup is run at the beginning of a new session, before ConsumeClaim
+func (p *Kafka) Setup(sarama.ConsumerGroupSession) error {
+	// Mark the consumer as ready
+	close(p.ready)
+	return nil
+}
+
+// Cleanup is run at the end of a session, once all ConsumeClaim goroutines have exited
+func (p *Kafka) Cleanup(sarama.ConsumerGroupSession) error {
+	return nil
+}
+
+// ConsumeClaim must start a consumer loop of ConsumerGroupClaim's Messages().
+func (p *Kafka) ConsumeClaim(session sarama.ConsumerGroupSession, claim sarama.ConsumerGroupClaim) error {
+
+	// NOTE:
+	// Do not move the code below to a goroutine.
+	// The `ConsumeClaim` itself is called within a goroutine, see:
+	// https://github.com/Shopify/sarama/blob/master/consumer_group.go#L27-L29
+	// 具体消费消息
+	for message := range claim.Messages() {
+		msg := string(message.Value)
+		log.Infof("来自kafka的消费信息  msg: %s", msg)
+		time.Sleep(time.Second)
+		//run.Run(msg)
+		// 数据处理逻辑在这里，不需要调用ConsumeClaim,内部已经实现
+
+		// 更新位移
+		session.MarkMessage(message, "")
+	}
+	return nil
+}
+
+func main() {
+	k := NewKafka()
+	f := k.Init()
+
+	// 创建获取系统中断信号的chan，并监听中断信号
+	sigterm := make(chan os.Signal, 1)
+	signal.Notify(sigterm, syscall.SIGINT, syscall.SIGTERM)
+	select {
+	case <-sigterm:
+		log.Warnln("terminating: via signal")
+	}
+	f()
+}
+
+```
+

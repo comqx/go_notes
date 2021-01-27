@@ -90,46 +90,28 @@ import (
 	"time"
 )
 
-var wg sync.WaitGroup
-
-func f2(ctx context.Context) {
-FORLOOP:
+//witchCancel
+func UseContext(ctx context.Context) {
 	for {
-		fmt.Println("context lqx is f2")
-		time.Sleep(time.Millisecond * 500)
 		select {
-		case <-ctx.Done():
-			break FORLOOP
+		case <-ctx.Done(): // 从ctx.Done()中读取传递进来的终结信号
+			fmt.Println("context is done with error %s", ctx.Err())
+			return
 		default:
+			fmt.Println("nothing just loop...")
+			time.Sleep(time.Second * time.Duration(1))
 		}
 	}
 }
 
-func f1(ctx context.Context) {
-	defer wg.Done()
-	go f2(ctx)
-FORLOOP:
-	for {
-		fmt.Println("context lqx is f1")
-		time.Sleep(time.Millisecond * 500)
-		select {
-		case <-ctx.Done():
-			break FORLOOP
-		default:
-		}
-	}
-}
-
-func main() {
-	//使用context，传入一个根节点，然后返回一个计数器，和一个关闭函数
+// context学习
+func contextMain() {
 	ctx, cancel := context.WithCancel(context.Background())
-	wg.Add(1)
-	go f1(ctx)
-	time.Sleep(time.Second * 5)
+	go UseContext(ctx) // 启动一个goroutine，循环打印
 
-	//如果想关闭goroutine，那么就执行一下关闭函数
-	cancel()
-	wg.Wait()
+	time.Sleep(time.Second * time.Duration(1))
+	cancel() // 关闭goroutine
+	time.Sleep(time.Second * time.Duration(2))
 }
 ```
 
@@ -178,30 +160,26 @@ Go内置两个函数：`Background()`和`TODO()`，这两个函数分别返回�
 
 ```go
 //witchCancel
-func gen(ctx context.Context) <-chan int {
-	dst := make(chan int)
-	n := 1
-	go func() {
-		for {
-			select {
-			case <-ctx.Done():
-				return //// return结束该goroutine，防止泄露
-			case dst <- n:
-				n++
-			}
-		}
-	}()
-	return dst
-}
-func witchCancelMain() {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-	for n := range gen(ctx) {
-		fmt.Println(n)
-		if n == 5 {
-			break
+func UseContext(ctx context.Context) {
+	for {
+		select {
+		case <-ctx.Done():
+			log.Printf("context is done with error: %s", ctx.Err())
+			return
+		default:
+			log.Printf("nothing just loop...")
+			time.Sleep(time.Second * time.Duration(1))
 		}
 	}
+}
+
+func main() {
+	ctx, cancel := context.WithCancel(context.Background())
+	go UseContext(ctx) // 传入ctx
+
+	time.Sleep(time.Second * time.Duration(2))
+	cancel()
+	time.Sleep(time.Second * time.Duration(3))
 }
 ```
 

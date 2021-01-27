@@ -227,6 +227,59 @@ func main() {
 </form>
 ```
 
+### swagger编写上传文件
+
+```go
+// @Summary 上传文件
+// @Description
+// @Tags file
+// @Accept multipart/form-data
+// @Param file formData file true "file"
+// @Produce  json
+// @Success 200 {object} filters.Response {"code":200,"data":nil,"msg":""}
+// @Router /upload [post]
+func UploadFile(ctx *gin.Context) {
+    file, header, err := ctx.Request.FormFile("file")
+    if err != nil {
+        returnMsg(ctx, configs.ERROR_PARAMS, "", err.Error())
+        return
+    }
+    //获取文件名
+    filename := header.Filename
+    //写入文件
+    out, err := os.Create("./static/" + filename)
+    if err != nil {
+        returnMsg(ctx, configs.ERROR_SERVERE, "", err.Error())
+        return
+    }
+    defer out.Close()
+    _, err = io.Copy(out, file)
+    if err != nil {
+        log.Fatal(err)
+
+    }
+    returnMsg(ctx, 200, "", "success")
+}
+```
+
+### swagger编写下载文件
+
+```go
+// @Summary 下载文件
+// @Description
+// @Tags file
+// @Param filename query string true "file name"
+// @Success 200 {object} gin.Context
+// @Router /download [get]
+func DownloadFile(ctx *gin.Context) {
+    filename := ctx.DefaultQuery("filename", "")
+    //fmt.Sprintf("attachment; filename=%s", filename)对下载的文件重命名
+    ctx.Writer.Header().Add("Content-Disposition", fmt.Sprintf("attachment; filename=%s", filename))
+    ctx.Writer.Header().Add("Content-Type", "application/octet-stream")
+    ctx.File("./static/a.txt")
+}
+```
+
 ## 上传多个文件
 
 ```go

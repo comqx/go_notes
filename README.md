@@ -22,7 +22,9 @@
 2. 包可以被其他包引用
 3. main包是用来生成可执行文件，每个程序只有一个main包
 4. 包的主要用途是提高代码的可复用性
+
 # go程序目录结构
+
 ```go
 -d:
  -/project #项目目录
@@ -69,7 +71,11 @@ func main() {
 
 ## go build 
 
-`go build -o 指定编译后的名字 需要编译的pkg`
+```go
+go build -o 指定编译后的名字 需要编译的pkg
+
+
+```
 
 ## go run
 
@@ -101,7 +107,16 @@ func main() {
 ## go env
 查看环境变量
 
+```shell 
+GOROOT
+GOPATH
+当我们导入一个包xxx时:
+go系统会优先在GOROOT/src中寻找，然后在GOPATH/src中寻找
+
+```
+
 ## go fmt
+
 格式化go代码文件
 
 ## go list
@@ -131,7 +146,13 @@ SET GOARCH=amd64  // 目标处理器架构是amd64
 ```shell
 # mac上编译linux和windows二进制
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build 
+# 如果你想在Windows 32位系统下运行
+CGO_ENABLED=0 GOOS=windows GOARCH=386 go build test.go
+# 如果你想在Windows 64位系统下运行
 CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build 
+
+CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ GOOS=windows GOARCH=amd64 go build -x -v -ldflags "-s -w" ./cmd/foot-api/main.go      
+
 
 # linux上编译mac和windows二进制
 CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build 

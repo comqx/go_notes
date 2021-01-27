@@ -16,7 +16,7 @@ func urlProcess(url string) string {
 	result := strings.HasPrefix(url,"http://") //HasPrefix判断是否以指定字符串开头
 	if !result {
 		url = fmt.Sprintf("http://%s",url)
-	}
+	
 	return url
 }
 func pathProcess(path string) string{
