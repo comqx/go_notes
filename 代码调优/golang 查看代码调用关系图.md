@@ -8,6 +8,9 @@ go-callvis 是github上一个开源项目，可以用来查看golang代码调用
 
 ```shell
 $ brew install graphviz
+apt install graphviz
+yum install graphviz
+
 ```
 ## 安装go-callvis
 

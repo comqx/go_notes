@@ -86,8 +86,8 @@ go build -o 指定编译后的名字 需要编译的pkg
 `go install`分为两步：
 
 	1. 先编译得到一个可执行文件
-
- 	2. 将可执行文件拷贝到`GOPATH/bin`
+	
+	2. 将可执行文件拷贝到`GOPATH/bin`
 
 ## go doc
 
@@ -180,6 +180,14 @@ SET CGO_ENABLED=0 SET GOOS=linux SET GOARCH=amd64 go build main.go
 ```go
 export GOPROXY=https://goproxy.cn    Mac
 SET GOPROXY=https://goproxy.cn       Windows
+
+// windows:
+go env -w GO111MODULE=on 
+go env -w GOPROXY=https://goproxy.cn,direct
+
+// linux mac
+export GO111MODULE=on
+export GOPROXY=https://goproxy.cn
 ```
 
 ## go.mod文件

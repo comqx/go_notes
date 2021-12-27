@@ -192,6 +192,8 @@ require (
 >更多操作查看：https://godoc.org/github.com/olivere/elastic
 
 ```go
+
+
 package main
 
 import (
@@ -358,6 +360,44 @@ func query() {
     printEmployee(res, err)
 
 }
+
+// 批量插入数据
+// https://github.com/olivere/elastic/wiki/BulkIndex
+// http://www.fecmall.com/topic/879
+type Tweet struct {
+	User    string `json:"user"`
+	Message string `json:"message"`
+}
+func main() {
+	client, err := elastic.NewClient()
+	if err != nil {
+		fmt.Println("%v", err)
+	}
+	n := 0
+	for i := 0; i < 1000; i++ {
+		bulkRequest := client.Bulk()
+		for j := 0; j < 10000; j++ {
+			n++
+			tweet := Tweet{User: "olivere", Message: "Package strconv implements conversions to and from string representations of basic data types. " + strconv.Itoa(n)}
+			req := elastic.NewBulkIndexRequest().
+      Index("twitter").
+      Type("tweet").
+      Id(strconv.Itoa(n)).
+      Doc(tweet)
+			bulkRequest = bulkRequest.Add(req)
+		}
+		bulkResponse, err := bulkRequest.Do()
+		if err != nil {
+			fmt.Println(err)
+		}
+		if bulkResponse != nil {
+
+		}
+		fmt.Println(i)
+	}
+}
+
+
 
 //简单分页
 func list(size, page int) {

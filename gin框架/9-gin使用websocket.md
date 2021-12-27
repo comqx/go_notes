@@ -442,3 +442,76 @@ func timeWriter(conn *websocket.Conn) {
     }
 }
 ```
+
+# web页面测试ws协议
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <title>websocket test</title>
+</head>
+<body>
+<script src="http://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
+<script type="text/javascript">
+    // 建立连接对象（还未发起连接）
+    var socket = new SockJS("http://geip-infra-bi-inner-proxy.glodon.com/base/ws");
+
+    // 获取 STOMP 子协议的客户端对象
+    var stompClient = Stomp.over(socket);
+
+   var dateFormat= function(fmt, date) {
+    let ret;
+    const opt = {
+        "Y+": date.getFullYear().toString(),        // 年
+        "m+": (date.getMonth() + 1).toString(),     // 月
+        "d+": date.getDate().toString(),            // 日
+        "H+": date.getHours().toString(),           // 时
+        "M+": date.getMinutes().toString(),         // 分
+        "S+": date.getSeconds().toString()          // 秒
+        // 有其他格式化字符需求可以继续添加，必须转化成字符串
+    };
+    for (let k in opt) {
+        ret = new RegExp("(" + k + ")").exec(fmt);
+        if (ret) {
+            fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
+        };
+    };
+    return fmt;
+}
+    // 向服务器发起websocket连接并发送CONNECT帧
+    stompClient.connect(
+        {'Authorization': ''},
+        function connectCallback(frame) {
+            // 连接成功时（服务器响应 CONNECTED 帧）的回调方法
+	    let date = new Date();
+	    let fdate = dateFormat("YYYY-mm-dd HH:MM:SS", date);
+            setMessageInnerHTML("connect success.<br>connection time:"+fdate);
+            stompClient.subscribe('/topic/348394616033792', function (response) {
+				if(null!= response){
+				  setMessageInnerHTML("348394616033792 raw data:"+ response.body);
+				  setMessageInnerHTML("<br>");
+				}
+            });
+        },
+        function errorCallBack(error) {
+            // 连接失败时（服务器响应 ERROR 帧）的回调方法
+ 	    let date = new Date();
+	    let fdate = dateFormat("YYYY-mm-dd HH:MM:SS", date);
+            setMessageInnerHTML("connection failed:"+ error+ "<br>error time:"+ fdate);
+        }
+    );
+    //将消息显示在网页上
+    function setMessageInnerHTML(innerHTML) {
+         document.getElementById('message').innerHTML += innerHTML + '<br/>';
+    }
+</script>
+<div id="message"></div>
+</body>
+</html>
+```
+
