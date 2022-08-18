@@ -151,6 +151,10 @@ CGO_ENABLED=0 GOOS=windows GOARCH=386 go build test.go
 # 如果你想在Windows 64位系统下运行
 CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build 
 
+CGO_ENABLED=1 GOOS=linux GOARCH=arm GOARM=7 CC=arm-linux-gnueabi-gcc-4.7 go build
+
+
+
 CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ GOOS=windows GOARCH=amd64 go build -x -v -ldflags "-s -w" ./cmd/foot-api/main.go      
 
 

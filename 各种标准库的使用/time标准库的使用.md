@@ -56,6 +56,8 @@ fmt.Println(now.Format("2006/01/02"))
 ```go
 fmt.Println(now.Unix())     //1564889269  秒
 fmt.Println(now.UnixNano()) //1564889269379591000 纳秒
+
+
 ```
 ## 时间加减法
 
