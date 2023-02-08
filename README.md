@@ -112,7 +112,6 @@ GOROOT
 GOPATH
 当我们导入一个包xxx时:
 go系统会优先在GOROOT/src中寻找，然后在GOPATH/src中寻找
-
 ```
 
 ## go fmt
@@ -125,9 +124,10 @@ go系统会优先在GOROOT/src中寻找，然后在GOPATH/src中寻找
 
 ## go tool
 
- 查看汇编语言 go tool compile -S  main.go 
-
-
+```shell
+ # 查看汇编语言
+ go tool compile -S  main.go 
+```
 
 ## 交叉编译
 
@@ -206,8 +206,6 @@ go mod tidy
 
 ```
 
-
-
 ## go.sum文件
 
 详细包名和版本信息
@@ -226,26 +224,3 @@ go get github.com/wilk/uuid@0.0.1 // 指定版本
 
 go clean -i -n  [包名]  // 卸载包
 ```
-
-# 学习golang
-
-```
-ctrl+alt+m toc
-ctrl+alt+x 粘贴image
-clt+ w 预览
-ctrl+shift+p 查看全面命令
-
-Command + Shift + [ 折叠代码块
-Command + Shift + ] 展开代码块
-Command + K Command + [ 折叠全部子代码块
-Command + K Command + ] 展开全部子代码块
-Command + K Command + 0 折叠全部代码块
-Command + K Command + J 展开全部代码块
-```
-
-
-
-
-
-# vscode使用技巧
-
