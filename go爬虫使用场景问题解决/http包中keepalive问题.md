@@ -14,7 +14,7 @@ var client = http.Client{
 
 // http 客户端
 func httpclient() {
-	url := "http://wechat.glodon.com"
+	url := "http://xxxxx"
 	req, err := http.NewRequest("GET", url, nil) //创建一个请求，是一个get请求，Qurl，需要传入的参数是nil
 	if err != nil {
 		fmt.Println("newrequest err:", err)
@@ -46,7 +46,7 @@ var client = http.Client{
 
 // http 客户端
 func httpclient() {
-	url := "http://wechat.glodon.com"
+	url := "http://xxxx"
 	req, err := http.NewRequest("GET", url, nil) //创建一个请求，是一个get请求，Qurl，需要传入的参数是nil
 	if err != nil {
 		fmt.Println("newrequest err:", err)

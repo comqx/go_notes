@@ -459,7 +459,7 @@ func timeWriter(conn *websocket.Conn) {
 <script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
 <script type="text/javascript">
     // 建立连接对象（还未发起连接）
-    var socket = new SockJS("http://geip-infra-bi-inner-proxy.glodon.com/base/ws");
+    var socket = new SockJS("http://xxxxxx/base/ws");
 
     // 获取 STOMP 子协议的客户端对象
     var stompClient = Stomp.over(socket);
