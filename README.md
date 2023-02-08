@@ -151,6 +151,10 @@ CGO_ENABLED=0 GOOS=windows GOARCH=386 go build test.go
 # 如果你想在Windows 64位系统下运行
 CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build 
 
+CGO_ENABLED=1 GOOS=linux GOARCH=arm GOARM=7 CC=arm-linux-gnueabi-gcc-4.7 go build
+
+
+
 CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ GOOS=windows GOARCH=amd64 go build -x -v -ldflags "-s -w" ./cmd/foot-api/main.go      
 
 
@@ -196,6 +200,14 @@ export GOPROXY=https://goproxy.cn
 
 第三方的依赖包都下载到了 `GOPATH/pkg/mod`目录下。
 
+```
+go mod edit -require=github.com/go-ini/ini@v1.67.0     
+go mod tidy 
+
+```
+
+
+
 ## go.sum文件
 
 详细包名和版本信息
@@ -230,4 +242,10 @@ Command + K Command + ] 展开全部子代码块
 Command + K Command + 0 折叠全部代码块
 Command + K Command + J 展开全部代码块
 ```
+
+
+
+
+
+# vscode使用技巧
 

@@ -56,6 +56,8 @@ fmt.Println(now.Format("2006/01/02"))
 ```go
 fmt.Println(now.Unix())     //1564889269  秒
 fmt.Println(now.UnixNano()) //1564889269379591000 纳秒
+
+
 ```
 ## 时间加减法
 
@@ -120,6 +122,7 @@ time.Now().UTC() // UTC时区
 # 时间之间转换
 
 ## 时间戳<--->时间格式
+
 ```go
 //时间戳----->自定义时间格式
 ret := time.Unix(1564845100, 0)
@@ -187,7 +190,7 @@ func times(time1 func()) {
 		err error
     a ="02/Dec/2020:15:20:51+0800"
 	)
-	if t,err =time.Parse("01/Jan/2006:15:04:05 +0800",b);err !=nil{
+	if t,err =time.Parse("01/Jan/2006:15:04:05 +0800",a);err !=nil{
 		fmt.Println(err)
 	}
 	fmt.Println(t)

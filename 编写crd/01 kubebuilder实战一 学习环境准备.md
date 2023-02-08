@@ -76,3 +76,4 @@ Version: version.Version{KubeBuilderVersion:"2.3.1", KubernetesVendor:"1.16.4", 
 ```
 
 - 至此，kubebuilder开发环境的准备工作就完成了，接下来的章节咱们正式进入开发实战，一起去学习精彩的kubernetes operator；
+- 

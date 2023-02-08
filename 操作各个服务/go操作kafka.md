@@ -108,7 +108,22 @@ partition在服务器上的表现相似就是一个一个的文件夹，每个pa
 
 ```shell
 # 查看topic的状态
-./kafka-topics.sh --list --zookeeper zookeeper.in:2181
+zk=kafka-zookeepepr:2181
+topic=k8s-topic
+kafka=:9092
+./kafka-topics.sh --list --zookeeper $zk
+
+# 查询topic，是否创建成功
+./kafka-topics.sh --describe --topic $topic --zookeeper $zk
+
+# 创建一个生产者
+./kafka-console-producer.sh --topic $topic --broker-list $kafka
+
+# 删除topic
+zk=kafka-zookeeper:2181
+topic=k8s-deploy
+kafka-topics.sh --delete --topic  $topic --zookeeper $zk
+
 ```
 
 # 操作kafka

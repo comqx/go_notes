@@ -93,8 +93,7 @@ func testMap3() {
 
 // map实例-4 判断map值,查找，添加，修改
 func modify(a map[string]map[string]string) {
-	_, ok := a["zhangsan"]
-	if !ok {
+  if _, ok := a["zhangsan"]; !ok{
 		a["zhangsan"] = make(map[string]string)
 	}
 	a["zhangsan"]["password"] = "123456"
