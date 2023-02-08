@@ -1,3 +1,5 @@
+[toc]
+
 # Centos 安装golang并安装使用中文文档
 
 ## 下载yum源并安装golang
@@ -10,7 +12,9 @@ yum install golang
 
 
 
-## 安装中文版gotour
+## 安装中文版gotour（在线学习golang工具）
+
+> 本地golang学习工具
 
 ```shell
 go get github.com/Go-zh/tour/gotour
