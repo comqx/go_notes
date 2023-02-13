@@ -15,8 +15,8 @@ yum install graphviz
 ## 安装go-callvis
 
 ```go
-go get -u github.com/TrueFurby/go-callvis
-cd $GOPATH/src/github.com/TrueFurby/go-callvis && make
+go get -u github.com/ofabry/go-callvis
+cd $GOPATH/src/github.com/ofabry/go-callvis && make install
 ```
 ### 用法
 
